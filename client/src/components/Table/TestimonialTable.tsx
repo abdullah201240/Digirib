@@ -185,7 +185,7 @@ export default function TestimonialTable() {
     return (
         <div className="flex justify-center items-center bg-gray-100 px-4">
             <div className="w-full max-w-6xl bg-white shadow-lg rounded-xl p-6">
-                <h1 className="text-center text-4xl">All Testimonials</h1>
+                <h1 className="text-center text-4xl text-black">All Testimonials</h1>
                 <br />
                 {loading ? (
                     <div className="text-center text-gray-500">Loading...</div>
@@ -271,27 +271,27 @@ export default function TestimonialTable() {
             {isModalOpen && currentTestimonial && (
                 <div className="fixed inset-0 bg-gray-600 bg-opacity-50 flex justify-center items-center z-50">
                     <div className="bg-white p-6 rounded-lg w-1/3">
-                        <h2 className="text-xl font-semibold text-center mb-4">Update Testimonial</h2>
+                        <h2 className="text-xl font-semibold text-center mb-4 text-black">Update Testimonial</h2>
                         <form onSubmit={handleUpdate} className="space-y-4">
                             <input
                                 type="text"
                                 placeholder="Title"
                                 value={formValues.title}
                                 onChange={(e) => setFormValues({ ...formValues, title: e.target.value })}
-                                className="w-full p-2 border border-gray-300 rounded"
+                                className="w-full p-2 border border-gray-300 rounded text-black"
                             />
                             <input
                                 type="text"
                                 placeholder="Designation"
                                 value={formValues.designation}
                                 onChange={(e) => setFormValues({ ...formValues, designation: e.target.value })}
-                                className="w-full p-2 border border-gray-300 rounded"
+                                className="w-full p-2 border border-gray-300 rounded text-black"
                             />
                             <textarea
                                 placeholder="Description"
                                 value={formValues.description}
                                 onChange={(e) => setFormValues({ ...formValues, description: e.target.value })}
-                                className="w-full p-2 border border-gray-300 rounded"
+                                className="w-full p-2 border border-gray-300 rounded text-black"
                             />
                             <input
                                 type="file"
@@ -306,7 +306,7 @@ export default function TestimonialTable() {
                                         alert('Please select a valid image file');
                                     }
                                 }}
-                                className="w-full p-2 border border-gray-300 rounded"
+                                className="w-full p-2 border border-gray-300 rounded text-black"
                             />
 
                             <button

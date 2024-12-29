@@ -65,7 +65,7 @@ export default function Page() {
   }
 
   return (
-    <div>
+    <div className='bg-white'>
       <div className="bg-white overflow-hidden shadow rounded-lg border">
         <div className="px-4 py-5 sm:px-6">
           <h3 className="text-lg leading-6 font-medium text-gray-900">Admin Profile</h3>

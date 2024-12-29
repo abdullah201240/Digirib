@@ -35,6 +35,7 @@ app.use(cors({
         "http://localhost:3000", 
         "http://192.168.68.188:3000",
         "http://192.168.68.188:8080",
+        "http://localhost:3001"
         
       ];
       if (allowedOrigins.indexOf(origin) !== -1) {

@@ -56,14 +56,16 @@ export default function Testimonial() {
     return <div className="text-center text-lg text-red-500">{error}</div>;
   }
 
+
   return (
-    <section className="bg-[#FFCBA3]">
+    <section className="bg-[#FCDED3]">
       <div className="mx-auto max-w-screen-xl px-4 py-12 sm:px-6 lg:px-8 lg:py-16">
         <h1 className="text-center text-4xl mb-10 tracking-tight text-black sm:text-3xl font-medium">
-          
-          Testimonials
+        <span className="underline decoration-[#F05924]">Wh</span>at{' '}
+
+        Our Client Say <span className='text-[#F05924]'>  About Us</span> 
         </h1>
-        <div className="mt-8 grid grid-cols-1 gap-4 md:grid-cols-3 md:gap-8">
+        <div className="mt-8 grid grid-cols-1 gap-4 md:grid-cols-3 md:gap-8 ">
           {testimonials.map((testimonial, index) => (
             <TestimonialCard key={index} {...testimonial} />
           ))}

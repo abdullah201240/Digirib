@@ -27,7 +27,7 @@ export default function AdminLayout({
 
   return (
     <div
-      className={`${geistSans.variable} ${geistMono.variable} antialiased dark`}
+      className={`${geistSans.variable} ${geistMono.variable} antialiased bg-white`}
     >
       {/* Only wrap with DefaultLayout if it's not the login page */}
       {isLoginPage ? (
