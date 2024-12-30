@@ -1,6 +1,6 @@
-
 "use client";
 import React from "react";
+import { FaFacebookF, FaInstagram, FaLinkedinIn, FaBehance, FaTwitter } from "react-icons/fa";
 
 const HeroSection = React.memo(function HeroSection() {
     return (
@@ -19,7 +19,6 @@ const HeroSection = React.memo(function HeroSection() {
                 </h2>
                 <h2
                     className="mx-auto max-w-5xl font-display text-4xl font-bold tracking-normal text-[#F05924] sm:text-7xl mt-4"
-
                 >
                     Solutions
                     <span className="inline-block">
@@ -31,6 +30,44 @@ const HeroSection = React.memo(function HeroSection() {
 
                 <h2 className="mx-auto mt-12 max-w-4xl text-lg line-clamp-3 md:line-clamp-none text-white leading-7">
                     &quot;At Digirib, we develop cutting-edge software that powers your business growth. From web apps to mobile platforms, we turn your vision into reality.&quot;                </h2>
+
+                {/* Follow Us Section on Mobile */}
+                <div className="flex flex-row justify-center gap-10 mt-16 lg:hidden">
+                    <a href="https://facebook.com" target="_blank" rel="noopener noreferrer">
+                        <FaFacebookF className="text-white w-8 h-8 cursor-pointer hover:text-[#F05924] transition-colors duration-200" />
+                    </a>
+                    <a href="https://instagram.com" target="_blank" rel="noopener noreferrer">
+                        <FaInstagram className="text-white w-8 h-8 cursor-pointer hover:text-[#F05924] transition-colors duration-200" />
+                    </a>
+                    <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer">
+                        <FaLinkedinIn className="text-white w-8 h-8 cursor-pointer hover:text-[#F05924] transition-colors duration-200" />
+                    </a>
+                    <a href="https://behance.net" target="_blank" rel="noopener noreferrer">
+                        <FaBehance className="text-white w-8 h-8 cursor-pointer hover:text-[#F05924] transition-colors duration-200" />
+                    </a>
+                    <a href="https://twitter.com" target="_blank" rel="noopener noreferrer">
+                        <FaTwitter className="text-white w-8 h-8 cursor-pointer hover:text-[#F05924] transition-colors duration-200" />
+                    </a>
+                </div>
+            </div>
+
+            {/* Follow Us Section for Larger Screens */}
+            <div className="absolute top-1/2 right-8 transform -translate-y-1/2 z-30 hidden lg:flex flex-col items-center gap-8">
+                <a href="https://facebook.com" target="_blank" rel="noopener noreferrer">
+                    <FaFacebookF className="text-white w-6 h-6 cursor-pointer hover:text-[#F05924] transition-colors duration-200" />
+                </a>
+                <a href="https://instagram.com" target="_blank" rel="noopener noreferrer">
+                    <FaInstagram className="text-white w-6 h-6 cursor-pointer hover:text-[#F05924] transition-colors duration-200" />
+                </a>
+                <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer">
+                    <FaLinkedinIn className="text-white w-6 h-6 cursor-pointer hover:text-[#F05924] transition-colors duration-200" />
+                </a>
+                <a href="https://behance.net" target="_blank" rel="noopener noreferrer">
+                    <FaBehance className="text-white w-6 h-6 cursor-pointer hover:text-[#F05924] transition-colors duration-200" />
+                </a>
+                <a href="https://twitter.com" target="_blank" rel="noopener noreferrer">
+                    <FaTwitter className="text-white w-6 h-6 cursor-pointer hover:text-[#F05924] transition-colors duration-200" />
+                </a>
             </div>
         </div>
     );
