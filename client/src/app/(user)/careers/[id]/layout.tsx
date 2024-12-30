@@ -1,7 +1,4 @@
 "use client";
-
-import Navbar from "@/components/user/Navbar";
-
 import { useEffect } from "react";
 
 export default function RootLayout({
@@ -10,25 +7,25 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   useEffect(() => {
-    document.title = "Digirib | About Us";
+    document.title = "Digirib | Career";
     const metaDescription = document.querySelector("meta[name='description']");
     if (metaDescription) {
       metaDescription.setAttribute(
         "content",
-        "Discover our story and values at Digirib. Learn how we strive to make a difference and connect with our community through our mission and vision."
+        "Navigate your career journey with confidence using our expert advice, tailored resources, and tools designed to help you reach your professional goals."
       );
     } else {
       const meta = document.createElement("meta");
       meta.name = "description";
       meta.content =
-        "Discover our story and values at Digirib. Learn how we strive to make a difference and connect with our community through our mission and vision.";
+        "Navigate your career journey with confidence using our expert advice, tailored resources, and tools designed to help you reach your professional goals.";
       document.head.appendChild(meta);
     }
   }, []);
 
   return (
     <div>
-        <Navbar/>
+       
       {children}
       
     </div>

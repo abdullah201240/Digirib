@@ -16,7 +16,7 @@ const geistMono = localFont({
 
 export const metadata: Metadata = {
   title: "Digirib",
-  description: "Discover With Bangladesh's Best Architecture Firm IQ ARCHITECTS LTD for innovative architecture and stunning landscape design. Explore our expertise in planning, decoration, interior, exterior and building design for your dream space.",
+  description: "Digirib is the top web design and development, SEO, UI/UX, Software development, IT and digital marketing agency company in Bangladesh. We offer help to transform your business into the digital realm.",
 };
 
 export default function RootLayout({
