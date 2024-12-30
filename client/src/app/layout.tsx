@@ -15,7 +15,7 @@ const geistMono = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "Digirib",
+  title: "Digirib | Transform Your Business with Comprehensive Digital & IT Solutions",
   description: "Digirib is the top web design and development, SEO, UI/UX, Software development, IT and digital marketing agency company in Bangladesh. We offer help to transform your business into the digital realm.",
 };
 
