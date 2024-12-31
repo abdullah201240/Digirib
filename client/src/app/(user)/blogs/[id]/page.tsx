@@ -4,7 +4,7 @@ import Navbar from "@/components/user/Navbar"; // Fixed typo in import path (Nab
 import { useParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
-// import Footer from "@/components/Footer";
+import Footer from "@/components/user/Footer";
 import Whatsapp from "@/components/user/Whatsapp";
 import Title from "@/components/user/Title";
 import about from "@/app/assets/img/BlogBg.webp"; // Correctly imported image
@@ -52,39 +52,44 @@ export default function Page() {
 
 
     return (
-        <div>
-            <Navbar />
-            <Title
-                title="Blog"
-                subTitle="Explore our blog for the latest trends, tips, and expert insights on software development, UI/UX design, digital transformation, and more. Stay ahead of the curve with actionable content that helps you navigate the digital landscape."
-                backgroundImage={about.src}
-            />
-            
-            <div className="flex justify-center items-center mt-8">
-                {blog?.image && (
-                    <Image
-                        src={`${process.env.NEXT_PUBLIC_API_URL_IMAGE}${blog?.image}`}
-                        alt="image"
-                        width={300} // Adjust the width and height as needed
-                        height={300}
-                        priority // Optional for faster loading
-                    />
-                )}
-            </div>
+        <div className="bg-[#F9F7F7]">
+        <Navbar />
+        <Title
+            title={blog?.title || "Service Title"} // Fallback text for title
+            subTitle=""
+            backgroundImage={about.src}
 
-            <div className="bg-white py-12 px-6 lg:pl-26">
-                <div className="max-w-7xl mx-auto text-left">
-                    <h2 className="text-2xl font-bold text-gray-800 mb-6">
-                        {blog?.title}
-                    </h2>
-                    <p className="text-lg text-gray-600 leading-relaxed mb-8">
-                    {getTextFromHTML(blog?.description || "No description available")}
-        
-                    </p>
-                </div>
+        />
+        <div className="flex justify-center items-center mt-8">
+            {blog?.image && (
+                <div className="relative w-100 h-64">
+                <Image
+                    src={`${process.env.NEXT_PUBLIC_API_URL_IMAGE}${blog?.image}`}
+                     alt="image"
+                    layout="fill"
+                    objectFit="cover"
+                    loading="lazy"
+                    placeholder="blur"
+                    blurDataURL="data:image/webp;base64,..."
+                />
             </div>
-            {/* <Footer /> */}
-            <Whatsapp />
+                
+            )}
         </div>
+
+        <div className="bg-[#F9F7F7] py-12 px-6 lg:pl-26">
+            <div className="max-w-7xl mx-auto text-left">
+                <h2 className="text-2xl font-bold text-gray-800 mb-6">
+                    {blog?.title}
+                </h2>
+                <p className="text-lg text-gray-600 leading-relaxed mb-8">
+                {getTextFromHTML(blog?.description || "No description available")}
+    
+                </p>
+            </div>
+        </div>
+        <Footer />
+        <Whatsapp />
+    </div>
     );
 }

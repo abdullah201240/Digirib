@@ -18,7 +18,7 @@ const Title: React.FC<TitleProps> = ({ title, subTitle, backgroundImage }) => {
                     backgroundImage: `url(${backgroundImage})`, // Use the dynamic image prop
                     backgroundSize: 'cover',
                     backgroundPosition: 'center',
-                    height: '60vh',
+                    height: 'auto',
                 }}
             >
                 {/* Semi-transparent overlay */}

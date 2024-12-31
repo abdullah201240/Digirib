@@ -1,144 +1,212 @@
-"use client";
 import React from 'react';
+import WhiteLogo from '@/app/assets/img/WhiteLogo.webp';
 import Image from 'next/image';
-import Logo from '@/app/assets/img/logo.webp'
 import Link from 'next/link';
-import { FaMapMarkerAlt, FaEnvelope, FaPhoneAlt, FaLinkedin } from 'react-icons/fa';
+import { FaMapMarkerAlt, FaEnvelope, FaPhoneAlt, FaWhatsapp } from "react-icons/fa";
 
 export default function Footer() {
   return (
-    <div
-      className="relative w-full min-h-screen overflow-hidden bg-cover bg-center bg-white"
-      style={{ backgroundImage: "url('footer.webp')" }} // Replace with your image path
-    >
-     <footer className="mt-72"> {/* Add the mt-8 (or any value you prefer) to the footer */}
-  <div className="bg-transparent py-4 text-white">
-    <div className="container px-4 mx-auto">
-      <div className="-mx-4 flex flex-wrap justify-between">
-        <div className="my-4 w-full sm:w-auto text-white"></div>
+    <div className="bg-[#F9F7F7]">
+      <footer className="relative">
+        {/* SVG Background */}
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320">
+          <defs>
+            <linearGradient id="borderGradient" gradientTransform="rotate(90)">
+              <stop offset="0%" stopColor="#F05924" />
+              <stop offset="100%" stopColor="#8A3315" />
+            </linearGradient>
+          </defs>
+          <path
+            fill="url(#borderGradient)"
+            fillOpacity="1"
+            d="M0,80L80,117.3C160,155,320,229,480,234.7C640,240,800,176,960,165.3C1120,155,1280,197,1360,218.7L1440,240L1440,320L1360,320C1280,320,1120,320,960,320C800,320,640,320,480,320C320,320,160,320,80,320L0,320Z"
+          ></path>
+          <path
+            fill="#101620"
+            fillOpacity="1"
+            d="M0,96L80,133.3C160,171,320,245,480,250.7C640,256,800,192,960,181.3C1120,171,1280,213,1360,234.7L1440,256L1440,320L1360,320C1280,320,1120,320,960,320C800,320,640,320,480,320C320,320,160,320,80,320L0,320Z"
+          ></path>
+        </svg>
 
-        <div className="px-3 my-4 w-full xl:w-1/4">
-          <Link href="/" className="block w-56 mb-10">
-            <Image
-              src={Logo}
-              alt="IQ Architects Logo"
-              height={60}
-              width={60}
-            />
-          </Link>
-          <p className="text-justify text-white">
-            IQ Architects Ltd is known for delivering the best interior design solutions, combining modern architecture with the latest trends in home decor & office interior design. Our team of experienced interior designers are passionate about creating functional & visually stunning spaces that reflect our clients&apos; needs.
-          </p>
-          <br />
-          <div>
-            <Link
-              href="https://www.facebook.com/profile.php?id=61568569290194"
-              className="inline-flex items-center justify-center h-8 w-8 border border-white rounded-full mr-3 hover:text-[#F17B21] hover:border-[#F17B21]"
-              aria-label="Facebook"
-            >
-              <svg
-                className="w-4 h-4 fill-current"
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 320 512"
-                role="img"
-                aria-label="Facebook Icon"
-              >
-                <path d="M279.14 288l14.22-92.66h-88.91v-60.13c0-25.35 12.42-50.06 52.24-50.06h40.42V6.26S260.43 0 225.36 0c-73.22 0-121.08 44.38-121.08 124.72v70.62H22.89V288h81.39v224h100.17V288z"></path>
-              </svg>
+        {/* Footer Content */}
+        <div className="bg-[#101620] w-full lg:-mt-20">
+          <div className="py-10 flex flex-wrap gap-8 md:flex-nowrap  mx-auto max-w-7xl">
+
+            {/* Left Column */}
+            <div className="w-full md:w-2/3  p-5 flex flex-col md:flex-row justify-between items-start md:items-center">
+              {/* Left Column: Logo and Mission Statement */}
+              <div className="flex-1 md:pr-16">
+                <Image alt="Logo" src={WhiteLogo} width={100} height={100} />
+                <p className="text-white text-lg mt-6">
+                  &quot;At Digirib, our mission is to drive digital transformation by delivering
+                  innovative and customized software solutions that empower businesses to thrive
+                  in a fast-paced, technology-driven world.&quot;
+                </p>
+              </div>
+
+              {/* Right Column: Contact Information */}
+              <div className="flex-1 mt-8 md:mt-0  p-6 ">
+                <h3 className="text-[#F05924] text-2xl font-bold mb-6 border-b border-gray-700 pb-2">
+                  Get in Touch
+                </h3>
+                <ul className="text-white text-base space-y-4">
+                  <li className="flex items-start">
+                    <FaMapMarkerAlt className="text-[#F05924] text-lg mr-3 mt-1" />
+                    <div>
+                      <strong className="block mb-1">Office Address:</strong>
+                      <span className='text-base'>House-141, Road-01, Baridhara DOHS, Dhaka</span>
+                    </div>
+                  </li>
+                  <li className="flex items-start">
+                    <FaEnvelope className="text-[#F05924] text-lg mr-3 mt-1" />
+                    <div>
+                      <strong className="block mb-1">Email:</strong>
+                      <a
+                        href="mailto:team.digirib@gmail.com"
+                        className="hover:underline hover:text-[#F05924] transition-colors"
+                      >
+                        team.digirib@gmail.com
+                      </a>
+                    </div>
+                  </li>
+                  <li className="flex items-start">
+                    <FaPhoneAlt className="text-[#F05924] text-lg mr-3 mt-1" />
+                    <div>
+                      <strong className="block mb-1">Phone:</strong>
+                      <a
+                        href="tel:+8801800000000"
+                        className="hover:underline hover:text-[#F05924] transition-colors"
+                      >
+                        (+880) 1800000000
+                      </a>
+                    </div>
+                  </li>
+                  <li className="flex items-start">
+                    <FaWhatsapp className="text-[#F05924] text-lg mr-3 mt-1" />
+                    <div>
+                      <strong className="block mb-1">WhatsApp:</strong>
+                      <a
+                        href="https://wa.me/8801800000000"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="hover:underline hover:text-[#F05924] transition-colors"
+                      >
+                        (+880) 1800000000
+                      </a>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+            </div>
+
+
+            {/* Center Column */}
+            <div className="w-full md:w-1/3 relative flex justify-center ">
+              {/* Floating Card */}
+              <div className="border bg-[#101620] w-80 h-[64vh] min-h-fit md:w-100 shadow-xl p-6 z-10 md:-mt-60 rounded-xl">
+                <h3 className="text-white text-lg font-bold mb-4">Connect with us</h3>
+                <div className="mb-4">
+                  <label
+                    className="block text-gray-300 font-medium mb-2"
+                    htmlFor="name"
+                  >
+                    Your Name                  </label>
+                  <input
+                    className="w-full py-2 px-3 rounded border focus:outline-none focus:ring-2 focus:ring-[#F05924] bg-gray-800 text-white"
+                    id="name"
+                    type="text"
+                    placeholder="Your Name"
+                  />
+                </div>
+                <div className="mb-4 mt-4">
+                  <div>
+                    <label
+                      className="block text-gray-300 font-medium mb-2"
+                      htmlFor="email"
+                    >
+                      Email
+                    </label>
+                    <input
+                      className="w-full py-2 px-3 rounded border focus:outline-none focus:ring-2 focus:ring-[#F05924] bg-gray-800 text-white"
+                      id="email"
+                      type="email"
+                      placeholder="Your Email"
+                    />
+                  </div>
+                  <div className='mt-4'>
+                    <label className="block text-gray-300 font-medium mb-2" htmlFor="cvv">
+                      Phone Number
+                    </label>
+                    <input
+                      className="w-full py-2 px-3 rounded border focus:outline-none focus:ring-2 focus:ring-[#F05924] bg-gray-800 text-white"
+                      id="phone"
+                      type="text"
+                      placeholder="Phone"
+                    />
+                  </div>
+                </div>
+                <div className="mb-4">
+                  <label
+                    className="block text-gray-300 font-medium mb-2"
+                    htmlFor="name_on_card"
+                  >
+                    Message.........
+                  </label>
+                  <textarea
+                    className="w-full py-12 px-3 rounded border focus:outline-none focus:ring-2 focus:ring-[#F05924] bg-gray-800 text-white"
+                    id="message"
+
+
+                  />
+                </div>
+                <button
+                  className="w-full py-2 px-4 bg-[#F05924] text-white font-bold rounded hover:bg-[#F05924] focus:outline-none focus:ring-2 focus:ring-[#F05924]"
+                >
+                  Submit
+                </button>
+              </div>
+
+              {/* Decorative Rotated Box */}
+              <div className="w-32 h-32 md:w-40 md:h-40  absolute transform lg:-right-10 bottom-20 rotate-[21deg] z-2 bg-[#F0592445]"></div>
+
+            </div>
+
+          </div>
+          <div className="hidden lg:flex justify-center items-center mx-auto max-w-6xl gap-6 space-x-6 pb-12 mt-12 text-xl text-white">
+            <Link href="/" className="hover:text-[#F05924]">
+              Home
             </Link>
-            <Link
-              href="https://www.instagram.com/iq__architects__ltd/"
-              className="inline-flex items-center justify-center h-8 w-8 border border-white rounded-full mr-3 hover:text-[#F17B21] hover:border-[#F17B21]"
-              aria-label="Instagram"
-            >
-              <svg
-                className="w-4 h-4 fill-current"
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 448 512"
-                role="img"
-                aria-label="Instagram Icon"
-              >
-                <path d="M224.1 141c-63.6 0-114.9 51.3-114.9 114.9s51.3 114.9 114.9 114.9S339 319.5 339 255.9 287.7 141 224.1 141zm0 189.6c-41.1 0-74.7-33.5-74.7-74.7s33.5-74.7 74.7-74.7 74.7 33.5 74.7 74.7-33.6 74.7-74.7 74.7zm146.4-194.3c0 14.9-12 26.8-26.8 26.8-14.9 0-26.8-12-26.8-26.8s12-26.8 26.8-26.8 26.8 12 26.8 26.8zm76.1 27.2c-1.7-35.9-9.9-67.7-36.2-93.9-26.2-26.2-58-34.4-93.9-36.2-37-2.1-147.9-2.1-184.9 0-35.8 1.7-67.6 9.9-93.9 36.1s-34.4 58-36.2 93.9c-2.1 37-2.1 147.9 0 184.9 1.7 35.9 9.9 67.7 36.2 93.9s58 34.4 93.9 36.2c37 2.1 147.9 2.1 184.9 0 35.9-1.7 67.7-9.9 93.9-36.2 26.2-26.2 34.4-58 36.2-93.9 2.1-37 2.1-147.8 0-184.8zM398.8 388c-7.8 19.6-22.9 34.7-42.6 42.6-29.5 11.7-99.5 9-132.1 9s-102.7 2.6-132.1-9c-19.6-7.8-34.7-22.9-42.6-42.6-11.7-29.5-9-99.5-9-132.1s-2.6-102.7 9-132.1c7.8-19.6 22.9-34.7 42.6-42.6 29.5-11.7 99.5-9 132.1-9s102.7-2.6 132.1 9c19.6 7.8 34.7 22.9 42.6 42.6 11.7 29.5 9 99.5 9 132.1s2.7 102.7-9 132.1z"></path>
-              </svg>
+            <Link href="/aboutUs" className="hover:text-[#F05924]">
+              About Us
             </Link>
-            <Link
-              href="#"
-              className="inline-flex items-center justify-center h-8 w-8 border border-white rounded-full mr-3 hover:text-[#F17B21] hover:border-[#F17B21]"
-              aria-label="YouTube"
-            >
-              <svg
-                className="w-4 h-4 fill-current"
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 576 512"
-                role="img"
-                aria-label="You Tube  Icon"
-              >
-                <path d="M549.655 124.083c-6.281-23.65-24.787-42.276-48.284-48.597C458.781 64 288 64 288 64S117.22 64 74.629 75.486c-23.497 6.322-42.003 24.947-48.284 48.597-11.412 42.867-11.412 132.305-11.412 132.305s0 89.438 11.412 132.305c6.281 23.65 24.787 41.5 48.284 47.821C117.22 448 288 448 288 448s170.78 0 213.371-11.486c23.497-6.321 42.003-24.171 48.284-47.821 11.412-42.867 11.412-132.305 11.412-132.305s0-89.438-11.412-132.305zm-317.51 213.508V175.185l142.739 81.205-142.739 81.201z"></path>
-              </svg>
+            <Link href="" className="hover:text-[#F05924]">
+              Services
             </Link>
-            {/* LinkedIn Icon */}
-            <Link
-              href="https://www.linkedin.com/company/iq-architects-ltd/"
-              className="inline-flex items-center justify-center h-8 w-8 border border-white rounded-full mr-3 hover:text-[#F17B21] hover:border-[#F17B21]"
-              aria-label="LinkedIn"
-            >
-              <FaLinkedin className="w-4 h-4 fill-current" />
+            <Link href="" className="hover:text-[#F05924]">
+              Projects
+            </Link>
+            <Link href="" className="hover:text-[#F05924]">
+              Career
+            </Link>
+            <Link href="" className="hover:text-[#F05924]">
+              Blog
+            </Link>
+            <Link href="" className="hover:text-[#F05924]">
+              Contact Us
             </Link>
           </div>
-        </div>
-
-        <div className="px-3 my-4 w-full sm:w-auto text-white">
-          <div>
-            <br />
-            <h2 className="inline-block text-3xl pb-4 mb-4 text-white">Get in touch</h2>
+          <div className="border-t-2 mx-auto max-w-7xl text-white">
+            <h1 className="mt-4 pb-10 text-center sm:text-left sm:px-6">
+              © {new Date().getFullYear()} Digirib. All rights reserved.
+            </h1>
           </div>
-          <ul className="leading-8 pt-3">
-            <li>
-              <FaMapMarkerAlt style={{ color: '#F17B21' }} className="inline-block mr-2 text-white" />
-              Office address: House-141, <br />&ensp; &ensp; Road-01, Baridhara DOHS, Dhaka
-            </li>
-            <li className=' pt-2'>
-              <FaEnvelope style={{ color: '#F17B21' }} className="inline-block mr-2 text-white" />
-              Email: info@iq-bd.com
-            </li>
-            <li className=' pt-2'>
-              <FaPhoneAlt style={{ color: '#F17B21' }} className="inline-block mr-2 text-white" />
-              Phone: (+880) 184-1004000
-            </li>
-            <li className=' pt-2'>
-              <FaPhoneAlt style={{ color: '#F17B21' }} className="inline-block mr-2 text-white" />
-              Phone: (+880) 161-8004000
-            </li>
-          </ul>
-        </div>
 
-        <div className="px-3 my-4 w-full sm:w-auto">
-          <div>
-            <h2 className="inline-block text-3xl text-white pb-4 mb-4 pt-5">Quick Access</h2>
-          </div>
-          <ul className="leading-8 pt-3">
-            <li><Link href="/" className="hover:text-[#F17B21]">Home</Link></li>
-            <li><Link href="/aboutUs" className="hover:text-[#F17B21]">About Us</Link></li>
-            <li><Link href="/projects" className="hover:text-[#F17B21]">Projects</Link></li>
-            <li><Link href="/blog" className="hover:text-[#F17B21]">Blog</Link></li>
-            <li><Link href="/contactUs" className="hover:text-[#F17B21]">Contact Us</Link></li>
-          </ul>
-        </div>
-        <div className="my-4 w-full sm:w-auto text-white"></div>
-      </div>
-    </div>
-  </div>
-  <div className="bg-[#101620]">
-    <div className="container mx-auto text-center max-w-[1330] py-4 text-white border-t border-white">
-      <div className="flex justify-center items-center">
-        <div className="text-center">
-          © Copyright {new Date().getFullYear()} IQ Architects. All rights reserved. | Development by <Link href="https://digirib.com/">Digirib</Link>
-        </div>
-      </div>
-    </div>
-  </div>
-</footer>
 
+
+
+
+        </div>
+      </footer>
     </div>
   );
 }

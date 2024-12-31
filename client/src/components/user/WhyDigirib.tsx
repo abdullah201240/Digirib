@@ -5,7 +5,7 @@ import Img2 from '@/app/assets/img/DownArraw.webp';
 
 export default function WhyDigirib() {
     return (
-        <div className="flex justify-center items-center py-8 px-4 bg-white">
+        <div className="flex justify-center items-center py-8 px-4 bg-white ">
             <div className="relative flex flex-col md:flex-row w-full max-w-7xl bg-white rounded-lg overflow-hidden">
                 {/* Image Section */}
                 <div className="relative md:w-1/2 overflow-hidden group">

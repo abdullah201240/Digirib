@@ -3,7 +3,6 @@
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
 
-
 interface Testimonial {
   title: string;
   description: string;
@@ -61,27 +60,27 @@ export default function Testimonial() {
           </h1>
         </div>
 
-        <div className="grid md:grid-cols-3 grid-cols-1 gap-16 items-center mx-auto max-w-6xl">
+        <div className="grid md:grid-cols-3 grid-cols-1 gap-12 items-center mx-auto max-w-7xl pl-2">
           {testimonials.map((testimonial, index) => (
             <div
               key={index}
-              className="flex flex-col md:p-8 p-4 rounded-xl relative bg-white shadow-lg"
+              className="flex flex-col md:p-8 p-4 rounded-xl relative bg-white shadow-lg group transition-all duration-300 hover:bg-[#FFC9A0]"
             >
               <Image
                 src={`${process.env.NEXT_PUBLIC_API_URL_IMAGE}${testimonial.image}`}
                 alt={testimonial.title}
-                className="absolute lg:-left-6 lg:-top-10 -left-[25px] -top-4 lg:w-[6rem] lg:h-[6rem] w-[4rem] h-[4rem] rounded-full outline outline-offset-2 outline-[#F05924]"
+                className="absolute lg:-left-6 lg:-top-10 -left-[25px] -top-4 lg:w-[6rem] lg:h-[6rem] w-[4rem] h-[4rem] rounded-full outline outline-offset-2 outline-[#F05924] group-hover:outline-white transition-all duration-300"
                 width={96}
                 height={96}
               />
-              <p className="md:pl-8 text-black sm:text-lg text-center font-serif">
-                <span className="sm:text-xl text-lg text-black">❝</span>
+              <p className="md:pl-8 mt-6 sm:mt-0 text-black sm:text-lg text-center font-serif group-hover:text-white transition-all duration-300">
+                <span className="sm:text-xl text-lg text-black group-hover:text-white">❝</span>
                 {testimonial.description}
-                <span className="sm:text-xl text-lg text-black">❞</span>
+                <span className="sm:text-xl text-lg text-black group-hover:text-white">❞</span>
               </p>
               <div className="flex flex-col justify-center items-center mt-4">
-                <p className="text-black sm:text-lg">{testimonial.title}</p>
-                <p className="text-black">{testimonial.designation}</p>
+                <p className="text-black sm:text-lg group-hover:text-white">{testimonial.title}</p>
+                <p className="text-black group-hover:text-white">{testimonial.designation}</p>
               </div>
             </div>
           ))}

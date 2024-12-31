@@ -58,20 +58,23 @@ const ClientsSection = () => {
         <span className="underline decoration-[#F05924]">Our</span>{' '}
         <span className="text-[#F05924]">Partners</span>
       </h2>
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-5xl mx-auto">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-7xl mx-auto ">
         {clients.length > 0 ? (
           clients.map((client) => (
-            <div key={client.id} className="flex items-center justify-center border border-gray-300 p-4">
+            <div
+              key={client.id}
+              className="flex items-center justify-center border border-gray-300 p-4"
+            >
               {client.image ? (
                 <Image
                   src={`${process.env.NEXT_PUBLIC_API_URL_IMAGE}${client.image}`}
                   alt={`Client image ${client.id}`}
-                  width={200}
-                  height={100}
-                  className="object-contain"
+                  width={150}
+                  height={120}
+                  className="object-contain mx-auto" // Center the image
                 />
               ) : (
-                <div>No image available</div>
+                <div className="text-center text-gray-500">No image available</div>
               )}
             </div>
           ))

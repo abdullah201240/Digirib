@@ -2,10 +2,13 @@ import React from 'react';
 import Image from 'next/image';
 import AboutImg from '@/app/assets/img/Ab.webp';
 import Link from 'next/link';
-export default function AboutUs() {
+interface AboutUsProps {
+    className?: string;
+  }
+const AboutUs: React.FC<AboutUsProps> = ({ className }) => {
     return (
         <div
-            className="relative w-full h-auto py-4 bg-cover bg-center"
+            className={`relative w-full h-auto py-4 bg-cover bg-center ${className || ''}`}
             style={{
                 backgroundImage: "url('/AboutUs.webp')",
                 backgroundSize: 'cover',
@@ -14,7 +17,7 @@ export default function AboutUs() {
                 minHeight: '90vh',
             }}
         >
-            <section className="bg-transparent mt-16">
+            <section className="bg-transparent -mt-10 sm:mt-16">
                 <div className="container mx-auto max-w-7xl py-16 px-4 sm:px-6 lg:px-8">
                     <div className="grid grid-cols-1 md:grid-cols-2 items-center gap-8">
                         <div className="max-w-6xl">
@@ -57,3 +60,4 @@ export default function AboutUs() {
         </div>
     );
 }
+export default AboutUs;
