@@ -100,7 +100,7 @@ const Navbar = () => {
       className={`${isScrolled ? "shadow-md" : ""} fixed top-0 left-0 right-0 z-50`}
       style={{ backgroundColor: "#060716", opacity: 0.95 }}
     >
-      <div className="mx-auto max-w-[1330px] px-2 sm:px-4 lg:px-6">
+      <div className="mx-auto max-w-7xl px-2 sm:px-4 lg:px-6">
         <div className="relative flex items-center justify-between h-20">
           {/* Mobile and Tablet menu button */}
           <div className="lg:hidden">
@@ -237,18 +237,8 @@ const Navbar = () => {
               >
                 Projects
               </Link>
-              <Link
-                href="/story"
-                className="px-3 py-2 text-medium font-medium text-white hover:bg-[#F05924] hover:text-white rounded-md"
-              >
-                Story
-              </Link>
-              <Link
-                href="/gallery"
-                className="px-3 py-2 text-medium font-medium text-white hover:bg-[#F05924] hover:text-white rounded-md"
-              >
-                Gallery
-              </Link>
+             
+             
               <Link
                 href="/career"
                 className="px-3 py-2 text-medium font-medium text-white hover:bg-[#F05924] hover:text-white rounded-md"
@@ -326,18 +316,7 @@ const Navbar = () => {
           >
             Projects
           </Link>
-          <Link
-            href="/story"
-            className="block px-3 py-2 text-base font-medium text-white hover:bg-[#F05924] hover:text-white rounded-md"
-          >
-            Story
-          </Link>
-          <Link
-            href="/gallery"
-            className="block px-3 py-2 text-base font-medium text-white hover:bg-[#F05924] hover:text-white rounded-md"
-          >
-            Gallery
-          </Link>
+         
           <Link
             href="/career"
             className="block px-3 py-2 text-base font-medium text-white hover:bg-[#F05924] hover:text-white rounded-md"

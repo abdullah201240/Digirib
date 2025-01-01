@@ -37,11 +37,7 @@ const config: Config = {
         current: "currentColor",
         transparent: "transparent",
         white: "#FFFFFF",
-        black: {
-          // ...colors.black,
-          DEFAULT: "#1C2434",
-          2: "#010101",
-        },
+        
         red: {
           ...colors.red,
           DEFAULT: "#FB5454",

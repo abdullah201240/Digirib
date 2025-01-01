@@ -5,10 +5,10 @@ import Link from 'next/link';
 interface AboutUsProps {
     className?: string;
   }
-const AboutUs: React.FC<AboutUsProps> = ({ className }) => {
+const AboutUs: React.FC<AboutUsProps> = () => {
     return (
         <div
-            className={`relative w-full h-auto py-4 bg-cover bg-center ${className || ''}`}
+            className={`relative w-full h-auto py-4 bg-cover bg-center}`}
             style={{
                 backgroundImage: "url('/AboutUs.webp')",
                 backgroundSize: 'cover',

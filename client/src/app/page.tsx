@@ -7,6 +7,7 @@ import Footer from "@/components/user/Footer";
 import HeroSection from "@/components/user/HeroSection";
 import Navbar from "@/components/user/Navbar";
 import Services from "@/components/user/Services";
+import Team from "@/components/user/Team";
 import Testimonial from "@/components/user/Testimonial";
 import Whatsapp from "@/components/user/Whatsapp";
 import WhyDigirib from "@/components/user/WhyDigirib";
@@ -26,6 +27,7 @@ export default function Home() {
       <Services  />
       <Testimonial  />
       <ClientsSection  />
+      <Team/>
       <Blog  />
      
       <Whatsapp  />

@@ -22,7 +22,7 @@ const Title: React.FC<TitleProps> = ({ title, subTitle, backgroundImage }) => {
                 }}
             >
                 {/* Semi-transparent overlay */}
-                <div className="relative flex flex-col items-center text-center bg-black bg-opacity-50 p-8 rounded-md max-w-5xl mx-auto">
+                <div className="relative flex flex-col items-center text-center  bg-opacity-50 p-8 rounded-md max-w-5xl mx-auto">
                     <h2 className="text-4xl font-extrabold leading-10 tracking-tight text-white sm:text-5xl sm:leading-none md:text-4xl">
                         {title}
                     </h2>

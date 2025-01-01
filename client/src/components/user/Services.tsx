@@ -5,17 +5,7 @@ import Image from "next/image";
 export default function Services() {
   return (
 
-    <div
-      className={"relative w-full h-auto  bg-cover bg-center"}
-      style={{
-        backgroundImage: "url('Servise.webp')",
-
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-        backgroundRepeat: 'no-repeat',
-
-      }} // Replace with your image path
-    >
+    <div className="bg-white">
       <section className=" py-32 px-8 " >
         <div className="mx-auto pt-10">
           <h1 className="text-black text-center text-3xl font-semibold">
