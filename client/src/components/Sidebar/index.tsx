@@ -70,8 +70,8 @@ const menuGroups = [
       },
       {
         icon: <FaRegThumbsUp />,
-        label: "We Achieved",
-        route: "/admin/weAchieved",
+        label: "Experiance",
+        route: "/admin/experiance",
       },
       {
         icon: <FaHandsHelping />,

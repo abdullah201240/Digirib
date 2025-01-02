@@ -25,6 +25,7 @@ import MainServices from '../models/mainServices';
 import MainServicesCategory from '../models/mainServicesCategory';
 import MainServicesSubCategory from '../models/mainServicesSubCategory';
 import '../models/associations';
+import Experiance from '../models/experiance';
 
 // View by ID API (Fetch a specific About record by ID)
 export const viewAboutById = async (req: Request, res: Response, next: NextFunction): Promise<any> => {
@@ -43,6 +44,24 @@ export const viewAboutById = async (req: Request, res: Response, next: NextFunct
   res.json({ mission, homeDescription, homeImage, whoWeAreText, vision, description,whoWeAreImage });
 
 };
+
+export const viewExperianceById = async (req: Request, res: Response, next: NextFunction): Promise<any> => {
+  const { id } = req.params; // Get the ID of the record from the URL parameters
+
+  const experianceRecord = await Experiance.findByPk(id); // Find the record by primary key
+
+  if (!experianceRecord) {
+    return next(new BadRequestException(`Experiance Record  with ID ${id} not found`, ErrorCode.ABOUT_RECORD_NOT_FOUND));
+
+  }
+  
+
+  const { projectsComplete, iTProfessionals, happyClients,  yearsOfExpertise} = experianceRecord
+
+  res.json({ projectsComplete, iTProfessionals, happyClients, yearsOfExpertise });
+
+};
+
 
 export const viewTestimonial = async (req: Request, res: Response, next: NextFunction): Promise<any> => {
   const testimonialRecords = await TestimonialModel(req.app.get('sequelize')).findAll();

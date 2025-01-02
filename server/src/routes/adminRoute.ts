@@ -1,5 +1,5 @@
 import express from 'express';
-import { aboutUs, category, createBestProject, createBlog, createClientHandler, createJob, createMainServices, createMainServicesCategory, createMainServicesSubCategory, createProject, createStory, deleteAbout, deleteBestProject, deleteBlog, deleteCategory, deleteClient, deleteJob, deleteMainServices, deleteMainServicesCategory, deleteMainServicesSubCategory, deleteProject, deleteServices, deleteStory, deleteTeam, deleteTestimonial, deleteWeAchieved, FinalizedEmail, getAllMainServicesCategories, getMainServices, getMainServicesCategoryById, getMainServicesSubCategory, getMainServicesSubCategoryById, jobApplyById, RejectedEmail, services, Shortlistedemail, team, testimonial, updateAbout, updateApplicantStatus, updateJob, updateServices, updateTeam, updateTestimonial, updateWeAchieved, viewAbout, viewAboutById, viewBestProject, viewBlog, viewCategory, viewCategoryById, viewClient, viewContacts, viewJob, viewProjects, viewServices, viewServicesById, viewStory, viewTeam, viewTeamById, viewTestimonial, viewTestimonialById, viewWeAchieved, viewWeAchievedById, weAchieved } from '../controllers/adminController'; // Adjust the import path as needed
+import { aboutUs, category, createBestProject, createBlog, createClientHandler, createJob, createMainServices, createMainServicesCategory, createMainServicesSubCategory, createProject, createStory, deleteAbout, deleteBestProject, deleteBlog, deleteCategory, deleteClient, deleteJob, deleteMainServices, deleteMainServicesCategory, deleteMainServicesSubCategory, deleteProject, deleteServices, deleteStory, deleteTeam, deleteTestimonial, deleteWeAchieved, experiance, FinalizedEmail, getAllMainServicesCategories, getMainServices, getMainServicesCategoryById, getMainServicesSubCategory, getMainServicesSubCategoryById, jobApplyById, RejectedEmail, services, Shortlistedemail, team, testimonial, updateAbout, updateApplicantStatus, updateExperiance, updateJob, updateServices, updateTeam, updateTestimonial, updateWeAchieved, viewAbout, viewAboutById, viewBestProject, viewBlog, viewCategory, viewCategoryById, viewClient, viewContacts, viewExperianceById, viewJob, viewProjects, viewServices, viewServicesById, viewStory, viewTeam, viewTeamById, viewTestimonial, viewTestimonialById, viewWeAchieved, viewWeAchievedById, weAchieved } from '../controllers/adminController'; // Adjust the import path as needed
 import { errorHandler } from '../error-handler';
 import authMiddleware from '../middleware/auth';
 import { compressImageMiddlewareSeo, uploadSeo } from '../middleware/uploadSeo';
@@ -25,6 +25,7 @@ router.put('/about/:id',  uploadSeo.fields([
   authMiddleware,
   errorHandler(updateAbout));
 
+
 // Route for deleting an About record by ID
 router.delete('/about/:id', authMiddleware,errorHandler(deleteAbout));
 
@@ -35,8 +36,17 @@ router.get('/about',authMiddleware, errorHandler(viewAbout));
 router.get('/about/:id',authMiddleware, errorHandler(viewAboutById));
 
 
+router.post('/experiance', 
+  errorHandler(experiance)  
+);
+// Route for updating an existing About record by ID
+router.put('/experiance/:id',
+  authMiddleware,
+  errorHandler(updateExperiance));
 
+  router.get('/experiance/:id',authMiddleware, errorHandler(viewExperianceById));
 
+  
 router.post('/testimonial', 
   authMiddleware,  
   uploadSeo.fields([  

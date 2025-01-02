@@ -41,6 +41,27 @@ const loginSchema = z.object({
   password: z.string()
     .min(1, 'Password is required'),
 });
+
+const experianceSchema = z.object({
+  projectsComplete: z.string()
+    .max(10, 'Home description must be at most 10 characters long'),
+
+    iTProfessionals: z.string()
+    .max(10, 'Mission must be at most 10 characters long'),
+
+    happyClients: z.string()
+    .max(10, 'Vision must be at most 10 characters long'),
+
+    yearsOfExpertise: z.string()
+    .max(10, 'Description must be at most 10 characters long'),
+
+  
+
+ 
+});
+
+
+
 const aboutSchema = z.object({
   homeDescription: z.string()
     .max(600, 'Home description must be at most 600 characters long'),
@@ -129,5 +150,5 @@ const jobSchema = z.object({
 });
 
 
-export {jobSchema,blogSchema, weAchievedSchema,projectSchema,categorySchema, contactsSchema,signupSchema,servicesSchema,teamSchema, loginSchema,aboutSchema ,testimonialSchema};
+export {experianceSchema,jobSchema,blogSchema, weAchievedSchema,projectSchema,categorySchema, contactsSchema,signupSchema,servicesSchema,teamSchema, loginSchema,aboutSchema ,testimonialSchema};
 

@@ -1,5 +1,5 @@
 import express from 'express';
-import {  viewAboutById, viewTeam, viewTestimonial,viewServices, viewServicesByid, contacts, viewAllProjectImage, viewWeAchieved, viewClient, viewBestProject, viewStory, viewBlog, viewBlogByid, viewJob, viewJobByid, applyJob, viewProjectCategory, viewProject, viewProjectById, getMainServices, getAllMainServicesCategories, getMainServicesById } from '../controllers/userController'; // Adjust the import path as needed
+import {  viewAboutById, viewTeam, viewTestimonial,viewServices, viewServicesByid, contacts, viewAllProjectImage, viewWeAchieved, viewClient, viewBestProject, viewStory, viewBlog, viewBlogByid, viewJob, viewJobByid, applyJob, viewProjectCategory, viewProject, viewProjectById, getMainServices, getAllMainServicesCategories, getMainServicesById, viewExperianceById } from '../controllers/userController'; // Adjust the import path as needed
 import { errorHandler } from '../error-handler';
 import { uploadPdf } from '../middleware/uploadPdf';
 
@@ -7,6 +7,8 @@ const router = express.Router();
 
 // Route for viewing an About record by ID
 router.get('/about/:id', errorHandler(viewAboutById));
+router.get('/experiance/:id', errorHandler(viewExperianceById));
+
 router.get('/testimonial', errorHandler(viewTestimonial));
 router.get('/team', errorHandler(viewTeam));
 

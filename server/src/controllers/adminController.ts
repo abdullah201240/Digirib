@@ -3,7 +3,7 @@ import bcrypt from 'bcryptjs';
 import AdminModel from '../models/admin'; // Adjust the import path as needed
 import { BadRequestException } from '../exceptions/bad-requests';
 import { ErrorCode } from '../exceptions/root';
-import { aboutSchema, blogSchema, categorySchema, jobSchema, loginSchema, projectSchema, servicesSchema, signupSchema, teamSchema, testimonialSchema, weAchievedSchema } from '../schema/admin';
+import { aboutSchema, blogSchema, categorySchema, experianceSchema, jobSchema, loginSchema, projectSchema, servicesSchema, signupSchema, teamSchema, testimonialSchema, weAchievedSchema } from '../schema/admin';
 import { UnprocessableEntity } from '../exceptions/validation';
 import jwt from 'jsonwebtoken';
 import AboutModel from '../models/about';
@@ -31,6 +31,7 @@ import MainServicesCategory from '../models/mainServicesCategory';
 import MainServicesSubCategory from '../models/mainServicesSubCategory';
 import MainServices from '../models/mainServices';
 import '../models/associations';
+import Experiance from '../models/experiance';
 
 const JWT_SECRET = process.env.JWT_SECRET_KEY || "12sawegg23grr434"; // Fallback to a hardcoded secret if not in env
 
@@ -202,6 +203,79 @@ export const logout = async (req: Request, res: Response): Promise<any> => {
 
   return res.status(200).json({ message: 'Logged out successfully' });
 };
+
+export const experiance = async (req: Request, res: Response, next: NextFunction): Promise<any> => {
+  const validation = experianceSchema.safeParse(req.body);
+
+  // If validation fails, throw a custom error
+  if (!validation.success) {
+    return next(new UnprocessableEntity(validation.error.errors, 'Validation Error'));
+  }
+
+  // Destructure the data from the validated body
+  const { projectsComplete, iTProfessionals, happyClients, yearsOfExpertise } = req.body;
+
+
+  
+
+  // Create a new "About" record in the database
+  const newExperiance = await Experiance.create({
+    projectsComplete,
+    iTProfessionals,
+    happyClients,
+    yearsOfExpertise,
+  });
+
+  return res.status(201).json({ message: 'Experiance created successfully', admin: newExperiance });
+};
+// Update API
+export const updateExperiance = async (req: Request, res: Response, next: NextFunction): Promise<any> => {
+  const { id } = req.params; // Get the ID of the record from the URL parameters
+  const validation = experianceSchema.safeParse(req.body);
+
+  // If validation fails, throw a custom error
+  if (!validation.success) {
+    return next(new UnprocessableEntity(validation.error.errors, 'Validation Error'));
+  }
+
+  const experianceRecord = await Experiance.findByPk(id);
+
+  // If record not found, return error
+  if (!experianceRecord) {
+    return next(new BadRequestException('Experiance Record  not found', ErrorCode.ABOUT_RECORD_NOT_FOUND));
+  }
+
+  // Destructure the data from the validated body
+  const { projectsComplete, iTProfessionals, happyClients,  yearsOfExpertise } = req.body;
+
+
+  
+  // Update the fields if new values are provided, otherwise keep the existing values
+  experianceRecord.projectsComplete = projectsComplete || experianceRecord.projectsComplete;
+  experianceRecord.iTProfessionals = iTProfessionals || experianceRecord.iTProfessionals;
+  experianceRecord.happyClients = happyClients || experianceRecord.happyClients;
+  experianceRecord.yearsOfExpertise = yearsOfExpertise || experianceRecord.yearsOfExpertise;
+ 
+  // Save the updated record
+  const updatedExperiance = await experianceRecord.save();
+
+  return res.status(200).json({ message: 'Experiance updated successfully', admin: updatedExperiance });
+};
+
+export const viewExperianceById = async (req: Request, res: Response, next: NextFunction): Promise<any> => {
+  const { id } = req.params; // Get the ID of the record from the URL parameters
+
+  const experianceRecord = await Experiance.findByPk(id); // Find the record by primary key
+
+  if (!experianceRecord) {
+    return next(new BadRequestException(`Experiance record with ID ${id} not found`, ErrorCode.ABOUT_RECORD_NOT_FOUND));
+
+  }
+
+  return res.status(200).json({ message: 'Fetched Experiance record successfully', data: experianceRecord });
+};
+
+
 
 export const aboutUs = async (req: Request, res: Response, next: NextFunction): Promise<any> => {
   const validation = aboutSchema.safeParse(req.body);
