@@ -4,14 +4,13 @@ import db from '../config/sequelize'; // Adjust path as needed
 // Define the attributes for the About model
 export interface AboutAttributes {
   id: number;
-  homeTitle: string;
   homeDescription: string;
   homeImage: string;
-  homeVideo: string;
-  title: string;
+  mission: string;
+  vision: string;
   description: string;
-  image: string;
-  video: string;
+  whoWeAreImage: string;
+  whoWeAreText: string;
 }
 
 // Specify which attributes are optional for model creation
@@ -20,14 +19,13 @@ export interface AboutCreationAttributes extends Optional<AboutAttributes, 'id'>
 // Define the About model class
 class About extends Model<AboutAttributes, AboutCreationAttributes> implements AboutAttributes {
   public id!: number;
-  public homeTitle!: string;
   public homeDescription!: string;
   public homeImage!: string;
-  public homeVideo!: string;
-  public title!: string;
+  public mission!: string;
+  public vision!: string;
   public description!: string;
-  public image!: string;
-  public video!: string;
+  public whoWeAreImage!: string;
+  public whoWeAreText!: string;
 
   // Add any instance-level methods here if needed
 }
@@ -42,10 +40,6 @@ const AboutModel = (sequelizeInstance: Sequelize): typeof About => {
         primaryKey: true,
         allowNull: false,
       },
-      homeTitle: {
-        type: DataTypes.STRING(55), // Match max length from Zod schema
-        allowNull: false,
-      },
       homeDescription: {
         type: DataTypes.STRING(600), // Match max length from Zod schema
         allowNull: false,
@@ -53,30 +47,26 @@ const AboutModel = (sequelizeInstance: Sequelize): typeof About => {
       homeImage: {
         type: DataTypes.STRING, // Store valid URLs as strings
         allowNull: false,
-       
       },
-      homeVideo: {
-        type: DataTypes.STRING, // Store valid URLs as strings
+      mission: {
+        type: DataTypes.STRING(500), // Match max length from Zod schema
         allowNull: false,
-        
       },
-      title: {
-        type: DataTypes.STRING(30), // Match max length from Zod schema
+      vision: {
+        type: DataTypes.STRING(500), // Match max length from Zod schema
         allowNull: false,
       },
       description: {
         type: DataTypes.STRING(800), // Match max length from Zod schema
         allowNull: false,
       },
-      image: {
+      whoWeAreImage: {
         type: DataTypes.STRING, // Store valid URLs as strings
         allowNull: false,
-        
       },
-      video: {
-        type: DataTypes.STRING, // Store valid URLs as strings
+      whoWeAreText: {
+        type: DataTypes.STRING(800), // Match max length from Zod schema
         allowNull: false,
-        
       },
     },
     {

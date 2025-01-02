@@ -36,9 +36,11 @@ export const viewAboutById = async (req: Request, res: Response, next: NextFunct
     return next(new BadRequestException(`About record with ID ${id} not found`, ErrorCode.ABOUT_RECORD_NOT_FOUND));
 
   }
-  const { homeTitle, homeDescription, homeImage, homeVideo, title, description, image, video } = aboutRecord
+  
 
-  res.json({ homeTitle, homeDescription, homeImage, homeVideo, title, description, image, video });
+  const { mission, homeDescription, homeImage,  description, whoWeAreImage, whoWeAreText,vision } = aboutRecord
+
+  res.json({ mission, homeDescription, homeImage, whoWeAreText, vision, description,whoWeAreImage });
 
 };
 

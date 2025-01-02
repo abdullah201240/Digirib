@@ -46,7 +46,7 @@ export default function Team() {
     };
 
     return (
-        <div className=' bg-white py-16'>
+        <div className=' bg-[#F9F7F7] py-16'>
             <div className='mx-auto max-w-7xl '>
                 
                 <h1 className='text-center mt-12 mb-16 text-4xl font-medium text-black'><span className='underline decoration-[#F05924]'>Meet</span> with our <span className='text-[#F05924]'>experts</span></h1>

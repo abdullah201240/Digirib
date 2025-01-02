@@ -14,7 +14,6 @@ import WhoWeAre from '@/components/user/WhoWeAre';
 import ClientsSection from '@/components/user/ClientsSection';
 import Team from '@/components/user/Team';
 
-// Dynamically load other components that are not critical for initial rendering
 
 
 export default function Home() {

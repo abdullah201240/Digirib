@@ -212,25 +212,24 @@ export const aboutUs = async (req: Request, res: Response, next: NextFunction): 
   }
 
   // Destructure the data from the validated body
-  const { homeTitle, homeDescription, homeVideo, title, description, video } = req.body;
+  const { homeDescription, mission, vision, description, whoWeAreText } = req.body;
 
 
   const files = req.files as { [fieldname: string]: Express.Multer.File[] };
 
   // Handle file uploads for images, using req.files (since you're uploading multiple fields)
   const homeImage = files['homeImage'] ? files['homeImage'][0].path : ''; // Check if 'homeImage' exists in req.files
-  const image = files['image'] ? files['image'][0].path : ''; // Check if 'image' exists in req.files
+  const whoWeAreImage = files['whoWeAreImage'] ? files['whoWeAreImage'][0].path : ''; // Check if 'image' exists in req.files
 
   // Create a new "About" record in the database
   const newAbout = await AboutModel(req.app.get('sequelize')).create({
-    homeTitle,
+    mission,
     homeDescription,
     homeImage,
-    homeVideo,
-    title,
+    vision,
     description,
-    image,
-    video,
+    whoWeAreImage,
+    whoWeAreText,
   });
 
   return res.status(201).json({ message: 'About created successfully', admin: newAbout });
@@ -256,23 +255,22 @@ export const updateAbout = async (req: Request, res: Response, next: NextFunctio
   }
 
   // Destructure the data from the validated body
-  const { homeTitle, homeDescription, homeVideo, title, description, video } = req.body;
+  const { mission, homeDescription, vision,  description, whoWeAreText } = req.body;
 
   const files = req.files as { [fieldname: string]: Express.Multer.File[] };
 
   // Handle file uploads for images, using req.files (since you're uploading multiple fields)
   const homeImage = files['homeImage'] ? files['homeImage'][0].path : ''; // Check if 'homeImage' exists in req.files
-  const image = files['image'] ? files['image'][0].path : ''; // Check if 'image' exists in req.files
+  const whoWeAreImage = files['whoWeAreImage'] ? files['whoWeAreImage'][0].path : ''; // Check if 'image' exists in req.files
 
   // Update the fields if new values are provided, otherwise keep the existing values
-  aboutRecord.homeTitle = homeTitle || aboutRecord.homeTitle;
+  aboutRecord.mission = mission || aboutRecord.mission;
   aboutRecord.homeDescription = homeDescription || aboutRecord.homeDescription;
-  aboutRecord.homeVideo = homeVideo || aboutRecord.homeVideo;
-  aboutRecord.title = title || aboutRecord.title;
+  aboutRecord.vision = vision || aboutRecord.vision;
   aboutRecord.description = description || aboutRecord.description;
-  aboutRecord.video = video || aboutRecord.video;
+  aboutRecord.whoWeAreText = whoWeAreText || aboutRecord.whoWeAreText;
   aboutRecord.homeImage = homeImage || aboutRecord.homeImage;
-  aboutRecord.image = image || aboutRecord.image;
+  aboutRecord.whoWeAreImage = whoWeAreImage || aboutRecord.whoWeAreImage;
 
   // Save the updated record
   const updatedAbout = await aboutRecord.save();

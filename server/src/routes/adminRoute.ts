@@ -9,10 +9,10 @@ import { uploadPdf } from '../middleware/uploadPdf';
 const router = express.Router();
 
 router.post('/about', 
-  authMiddleware,  
+   
   uploadSeo.fields([  
     { name: 'homeImage', maxCount: 1 },
-    { name: 'image', maxCount: 1 }
+    { name: 'whoWeAreImage', maxCount: 1 }
   ]),
   
   errorHandler(aboutUs)  
@@ -20,7 +20,7 @@ router.post('/about',
 // Route for updating an existing About record by ID
 router.put('/about/:id',  uploadSeo.fields([  
     { name: 'homeImage', maxCount: 1 },
-    { name: 'image', maxCount: 1 }
+    { name: 'whoWeAreImage', maxCount: 1 }
   ]),
   authMiddleware,
   errorHandler(updateAbout));

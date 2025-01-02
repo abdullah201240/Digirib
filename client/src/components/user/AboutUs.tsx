@@ -37,7 +37,7 @@ const AboutUs: React.FC<AboutUsProps> = () => {
                             <div className="flex gap-4 mt-10">
 
                                 <Link className="px-6 py-2 min-w-[120px] text-center text-white bg-[#F05924] border border-[#F05924] rounded active:text-[#F05924] hover:bg-transparent hover:text-[#F05924] focus:outline-none focus:ring"
-                                    href="/download">
+                                    href="/aboutUs">
                                     More About Us
                                 </Link>
 

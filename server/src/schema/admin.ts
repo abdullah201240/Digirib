@@ -42,27 +42,22 @@ const loginSchema = z.object({
     .min(1, 'Password is required'),
 });
 const aboutSchema = z.object({
-  homeTitle: z.string()
-    .max(55, 'Home title must be at most 55 characters long'),
-
   homeDescription: z.string()
     .max(600, 'Home description must be at most 600 characters long'),
 
+  mission: z.string()
+    .max(500, 'Mission must be at most 500 characters long'),
 
-
-  homeVideo: z.string()
-    .url('Home video must be a valid URL'),
-
-  title: z.string()
-    .max(30, 'Title must be at most 30 characters long'),
+  vision: z.string()
+    .max(500, 'Vision must be at most 500 characters long'),
 
   description: z.string()
     .max(800, 'Description must be at most 800 characters long'),
 
+  whoWeAreText: z.string()
+    .max(800, 'Who we are text must be at most 800 characters long'),
 
-
-  video: z.string()
-    .url('Video must be a valid URL'),
+ 
 });
 
 const testimonialSchema  = z.object({
