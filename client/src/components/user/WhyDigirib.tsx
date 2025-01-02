@@ -1,19 +1,67 @@
-import React from 'react';
+"use client";
+import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
-import Img1 from '@/app/assets/img/Why.webp';
 import Img2 from '@/app/assets/img/DownArraw.webp';
+interface WhyDigiribInfo {
+
+    description: string;
+    image: string;
+
+}
 
 export default function WhyDigirib() {
+    const [whyDigirib, setWhyDigirib] = useState<WhyDigiribInfo | null>(null);  // Use the interface here
+    const [loading, setLoading] = useState(true);      // State to handle loading state
+    const [error, setError] = useState<string | null>(null); // State to handle any errors
+    useEffect(() => {
+
+        const fetchAboutInfo = async () => {
+            try {
+                const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}user/whyDigirib/1`);
+                if (!response.ok) {
+                    throw new Error('Failed to fetch data');
+                }
+                const data = await response.json();
+                console.log(data)
+                setWhyDigirib(data);  // Set the fetched data
+            } catch (err) {
+                console.error(err);  // Log the error for debugging
+                const errorMessage = (err as Error).message;
+
+                setError(errorMessage);
+
+
+
+            } finally {
+                setLoading(false);  // Set loading to false when fetching is complete
+            }
+        };
+
+        fetchAboutInfo(); // Call the fetch function when component mounts
+    }, []);  // Empty dependency array to run only once when the component mounts
+
+    if (loading) {
+        return <div>Loading...</div>; // Show a loading message while fetching data
+    }
+
+    if (error) {
+        return <div>Error: {error}</div>; // Show an error message if there's an issue with the fetch
+    }
     return (
         <div className="flex justify-center items-center py-8 px-4 bg-white ">
             <div className="relative flex flex-col md:flex-row w-full max-w-7xl bg-white rounded-lg overflow-hidden">
                 {/* Image Section */}
                 <div className="relative md:w-1/2 overflow-hidden group">
+                {whyDigirib?.image && (
+
                     <Image
-                        src={Img1}
-                        alt="Why Digirib"
+                    src={`${process.env.NEXT_PUBLIC_API_URL_IMAGE}${whyDigirib.image}`}
+                    alt="Why Digirib"
+                    width={800}
+                  height={800}
                         className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
                     />
+                )}
                 </div>
 
                 {/* Content Section */}
@@ -33,12 +81,11 @@ export default function WhyDigirib() {
                     </div>
 
                     {/* Description */}
-                    <p className="mb-6 text-slate-600 leading-relaxed text-lg">
-                        At Digirib, we leverage years of proven expertise to deliver innovative digital solutions that align with your unique business needs. Our commitment to cutting-edge technology means the software we create is not only state-of-the-art but also
-                        scalable—ensuring it evolves as your business grows.
+                    <p className='text-black'>
+                    {whyDigirib?.description || "Loading whoWeAreText..."}
 
-                        We place your goals at the center of everything we do, collaborating closely to craft personalized solutions that drive real impact. Our dedication to quality means that every project is executed with precision and a relentless focus on excellence.
                     </p>
+                   
                 </div>
             </div>
         </div>

@@ -60,6 +60,11 @@ const experianceSchema = z.object({
  
 });
 
+const whyDigiribSchema = z.object({
+  description: z.string()
+    .max(600, 'Home description must be at most 600 characters long'),
+ 
+});
 
 
 const aboutSchema = z.object({
@@ -150,5 +155,5 @@ const jobSchema = z.object({
 });
 
 
-export {experianceSchema,jobSchema,blogSchema, weAchievedSchema,projectSchema,categorySchema, contactsSchema,signupSchema,servicesSchema,teamSchema, loginSchema,aboutSchema ,testimonialSchema};
+export {whyDigiribSchema,experianceSchema,jobSchema,blogSchema, weAchievedSchema,projectSchema,categorySchema, contactsSchema,signupSchema,servicesSchema,teamSchema, loginSchema,aboutSchema ,testimonialSchema};
 

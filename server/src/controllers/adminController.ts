@@ -3,7 +3,7 @@ import bcrypt from 'bcryptjs';
 import AdminModel from '../models/admin'; // Adjust the import path as needed
 import { BadRequestException } from '../exceptions/bad-requests';
 import { ErrorCode } from '../exceptions/root';
-import { aboutSchema, blogSchema, categorySchema, experianceSchema, jobSchema, loginSchema, projectSchema, servicesSchema, signupSchema, teamSchema, testimonialSchema, weAchievedSchema } from '../schema/admin';
+import { aboutSchema, blogSchema, categorySchema, experianceSchema, jobSchema, loginSchema, projectSchema, servicesSchema, signupSchema, teamSchema, testimonialSchema, weAchievedSchema, whyDigiribSchema } from '../schema/admin';
 import { UnprocessableEntity } from '../exceptions/validation';
 import jwt from 'jsonwebtoken';
 import AboutModel from '../models/about';
@@ -32,6 +32,7 @@ import MainServicesSubCategory from '../models/mainServicesSubCategory';
 import MainServices from '../models/mainServices';
 import '../models/associations';
 import Experiance from '../models/experiance';
+import WhyDigirib from '../models/whyDigirib';
 
 const JWT_SECRET = process.env.JWT_SECRET_KEY || "12sawegg23grr434"; // Fallback to a hardcoded secret if not in env
 
@@ -275,6 +276,80 @@ export const viewExperianceById = async (req: Request, res: Response, next: Next
   return res.status(200).json({ message: 'Fetched Experiance record successfully', data: experianceRecord });
 };
 
+export const whyDigirib= async (req: Request, res: Response, next: NextFunction): Promise<any> => {
+  const validation = whyDigiribSchema.safeParse(req.body);
+
+  // If validation fails, throw a custom error
+  if (!validation.success) {
+    return next(new UnprocessableEntity(validation.error.errors, 'Validation Error'));
+  }
+
+  // Destructure the data from the validated body
+  const {  description } = req.body;
+
+
+  const files = req.files as { [fieldname: string]: Express.Multer.File[] };
+
+  // Handle file uploads for images, using req.files (since you're uploading multiple fields)
+  const image = files['image'] ? files['image'][0].path : ''; // Check if 'homeImage' exists in req.files
+
+  // Create a new "About" record in the database
+  const newAbout = await WhyDigirib.create({
+   
+    description,
+    image,
+  });
+
+  return res.status(201).json({ message: 'About created successfully', admin: newAbout });
+};
+
+export const updateWhyDigirib = async (req: Request, res: Response, next: NextFunction): Promise<any> => {
+  const { id } = req.params; // Get the ID of the record from the URL parameters
+  const validation = whyDigiribSchema.safeParse(req.body);
+
+  // If validation fails, throw a custom error
+  if (!validation.success) {
+    return next(new UnprocessableEntity(validation.error.errors, 'Validation Error'));
+  }
+
+  const WhyDigiribRecord = await WhyDigirib.findByPk(id);
+
+  // If record not found, return error
+  if (!WhyDigiribRecord) {
+    return next(new BadRequestException('WhyDigirib Record  not found', ErrorCode.ABOUT_RECORD_NOT_FOUND));
+  }
+
+  // Destructure the data from the validated body
+  const {   description } = req.body;
+
+  const files = req.files as { [fieldname: string]: Express.Multer.File[] };
+
+  // Handle file uploads for images, using req.files (since you're uploading multiple fields)
+  const image = files['image'] ? files['image'][0].path : ''; // Check if 'homeImage' exists in req.files
+
+  // Update the fields if new values are provided, otherwise keep the existing values
+  WhyDigiribRecord.description = description || WhyDigiribRecord.description;
+  WhyDigiribRecord.image = image || WhyDigiribRecord.image;
+ 
+
+  // Save the updated record
+  const updatedWhyDigiribRecord = await WhyDigiribRecord.save();
+
+  return res.status(200).json({ message: 'WhyDigirib Record updated successfully', admin: updatedWhyDigiribRecord });
+};
+
+export const viewWhyDigiribById = async (req: Request, res: Response, next: NextFunction): Promise<any> => {
+  const { id } = req.params; // Get the ID of the record from the URL parameters
+
+  const whyDigiribRecord = await WhyDigirib.findByPk(id); // Find the record by primary key
+
+  if (!whyDigiribRecord) {
+    return next(new BadRequestException(`Why Digirib Record  with ID ${id} not found`, ErrorCode.ABOUT_RECORD_NOT_FOUND));
+
+  }
+
+  return res.status(200).json({ message: 'Fetched Why Digirib Record  successfully', data: whyDigiribRecord });
+};
 
 
 export const aboutUs = async (req: Request, res: Response, next: NextFunction): Promise<any> => {

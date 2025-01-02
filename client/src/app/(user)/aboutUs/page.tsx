@@ -1,7 +1,3 @@
-
-
-
-
 import Title from '@/components/user/Title';
 
 import Whatsapp from '@/components/user/Whatsapp';

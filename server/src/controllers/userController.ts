@@ -26,6 +26,7 @@ import MainServicesCategory from '../models/mainServicesCategory';
 import MainServicesSubCategory from '../models/mainServicesSubCategory';
 import '../models/associations';
 import Experiance from '../models/experiance';
+import WhyDigirib from '../models/whyDigirib';
 
 // View by ID API (Fetch a specific About record by ID)
 export const viewAboutById = async (req: Request, res: Response, next: NextFunction): Promise<any> => {
@@ -59,6 +60,23 @@ export const viewExperianceById = async (req: Request, res: Response, next: Next
   const { projectsComplete, iTProfessionals, happyClients,  yearsOfExpertise} = experianceRecord
 
   res.json({ projectsComplete, iTProfessionals, happyClients, yearsOfExpertise });
+
+};
+
+export const viewWhyDigiribById = async (req: Request, res: Response, next: NextFunction): Promise<any> => {
+  const { id } = req.params; // Get the ID of the record from the URL parameters
+
+  const viewWhyDigiribByIdRecord = await WhyDigirib.findByPk(id); // Find the record by primary key
+
+  if (!viewWhyDigiribByIdRecord) {
+    return next(new BadRequestException(`Why Digirib Record  with ID ${id} not found`, ErrorCode.ABOUT_RECORD_NOT_FOUND));
+
+  }
+  
+
+  const { description, image} = viewWhyDigiribByIdRecord
+
+  res.json({ description, image });
 
 };
 

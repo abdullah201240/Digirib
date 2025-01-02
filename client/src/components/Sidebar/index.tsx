@@ -80,8 +80,8 @@ const menuGroups = [
       },
       {
         icon: <FaBriefcase />,
-        label: "Best Project",
-        route: "/admin/bestProject",
+        label: "whyDigirib",
+        route: "/admin/whyDigirib",
       },
       {
         icon: <IoMdCreate />,
