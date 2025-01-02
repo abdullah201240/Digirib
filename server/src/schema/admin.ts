@@ -115,8 +115,7 @@ const contactsSchema = z.object({
   name: z.string(),  // Ensures the title is a string
   phone: z.string(),  // Ensures the subTitle is a string
   email: z.string().email(), // Ensures that the email is in a valid format
-  subject: z.string(),  // Ensures the description is a string
-  description: z.string(),  // Ensures the description is a string
+  topic: z.string(),  // Ensures the description is a string
 });
 const categorySchema = z.object({
   name: z.string(),  // Ensures the title is a string

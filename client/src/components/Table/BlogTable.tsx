@@ -5,11 +5,12 @@ import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 
 interface Blog {
-    id:number
+    id: number
     title: string;
     description: string,
-    
-    image: string | File | null;}
+
+    image: string | File | null;
+}
 
 const BlogTable = () => {
     const router = useRouter();
@@ -58,7 +59,7 @@ const BlogTable = () => {
                 if (teamResponse.ok) {
                     const data = await teamResponse.json(); // Parse response data
                     // Ensure that the data is an array before setting it
-                   
+
                     if (Array.isArray(data.data)) {
                         console.log(data.data)
                         setBlogs(data.data); // Update state with the fetched team
@@ -121,112 +122,99 @@ const BlogTable = () => {
         setDeleteId(null);
     };
 
-   
+
 
     const getTextFromHTML = (html: string): string => {
         const tempElement = document.createElement('div');
         tempElement.innerHTML = html;
         return tempElement.textContent || tempElement.innerText || "";
     };
-    
+
 
 
     return (
-        <div className="rounded-sm border border-stroke bg-white px-5 pb-2.5 pt-6 shadow-default  sm:px-7.5 xl:pb-1">
-            <h4 className="mb-6 text-xl font-semibold text-black dark:text-black">
-            All Blog
-            </h4>
+        <div className="flex justify-center items-center bg-gray-100 px-4">
+            <div className="w-full max-w-6xl bg-white shadow-lg rounded-xl p-6">
+                <h1 className="text-center text-4xl text-black">  All Blog</h1>
 
-            <div className="flex flex-col text-white">
-                <div className="grid grid-cols-5 rounded-sm bg-gray-2 dark:bg-meta-4 sm:grid-cols-4">
-                    <div className="p-2.5 xl:p-5">
-                        <h5 className="text-sm font-medium uppercase xsm:text-base text-white">
-                            Title
-                        </h5>
-                    </div>
-                    <div className="hidden p-2.5 text-center sm:block xl:p-5">
-                        <h5 className="text-sm font-medium uppercase xsm:text-base">
-                        Description
-                        </h5>
-                    </div>
-                   
-                    <div className="hidden p-2.5 text-center sm:block xl:p-5">
-                        <h5 className="text-sm font-medium uppercase xsm:text-base">
-                            Image
-                        </h5>
-                    </div>
-    
-                    <div className="hidden p-2.5 text-center sm:block xl:p-5">
-                        <h5 className="text-sm font-medium uppercase xsm:text-base">
-                            Actions
-                        </h5>
-                    </div>
-                </div>
-
-                {blogs.length > 0 ? (
-                    blogs.map((blog) => (
-                        <div
-                            className={`grid grid-cols-4 sm:grid-cols-4 ${blogs.indexOf(blog) === blogs.length - 1
-                                    ? ''
-                                    : 'border-b border-stroke dark:border-strokedark'
-                                }`}
-                            key={blog.id}
-                        >
-                            <div className="flex items-center gap-3 p-2.5 xl:p-5">
-                                <p className="text-black">{blog.title}</p>
-                            </div>
-                            
-                            <div className="flex items-center gap-3 p-2.5 xl:p-5">
-                            
-
-                                <p className="text-black">{getTextFromHTML(blog.description).slice(0, 100)}...</p>
-                            </div>
-                            
-                         
-
-                            <div className="flex items-center justify-center gap-2 p-2.5 xl:p-5">
-                            <div className="w-20 h-20 rounded-lg overflow-hidden">
-                                        {blog.image ? (
-                                            <Image
-                                                className="w-full h-full object-cover"
-                                                src={`${process.env.NEXT_PUBLIC_API_URL_IMAGE}${blog.image}`}
-                                                alt="service-image"
-                                                width={50}
-                                                height={50}
-                                            />
-                                        ) : (
-                                            <span>No Image</span>
-                                        )}
-                                    </div>
-                            </div>
-
-          
-                            <div className="flex items-center justify-center gap-2 p-2.5 xl:p-5">
-                                
-                                <button
-                                    className="text-red-500"
-                                    onClick={() => showDeleteConfirm(blog.id)}
-                                >
-                                    <FaTrash />
-                                </button>
-                            </div>
-                        </div>
-                    ))
-                ) : loading ? (
-                    <p>Loading...</p>
+                {loading ? (
+                    <div className="text-center text-gray-500">Loading...</div>
                 ) : (
-                    <p>No client found.</p>
+                    <div className="overflow-x-auto">
+                        <table className="min-w-full text-sm text-gray-700 border-collapse border border-gray-200 rounded-lg">
+                            <thead>
+                                <tr className="bg-gray-50">
+                                    <th className="p-4 text-left font-semibold text-gray-900 border border-gray-200">Title</th>
+                                    <th className="p-4 text-left font-semibold text-gray-900 border border-gray-200">Description</th>
+                                    <th className="p-4 text-left font-semibold text-gray-900 border border-gray-200">Image</th>
+                                    <th className="p-4 text-left font-semibold text-gray-900 border border-gray-200">Actions</th>
+
+
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {blogs.length > 0 ? (
+
+                                    blogs.map((blog) => (
+
+                                        <tr key={blog.id} className="bg-white hover:bg-gray-50">
+                                            <td className="p-4 text-gray-900 border border-gray-200">{blog.title}</td>
+                                            <td className="p-4 text-gray-900 border border-gray-200">
+                                                {getTextFromHTML(blog.description).slice(0, 100)}...
+                                            </td>
+
+                                            <td className="p-4 text-gray-900 border border-gray-200">
+                                                {blog.image ? (
+                                                    <Image
+                                                        className="w-full h-full object-cover"
+                                                        src={`${process.env.NEXT_PUBLIC_API_URL_IMAGE}${blog.image}`}
+                                                        alt="service-image"
+                                                        width={50}
+                                                        height={50}
+                                                    />
+                                                ) : (
+                                                    <span>No Image</span>
+                                                )}
+
+                                            </td>
+                                            <td className="p-4 border border-gray-200">
+
+                                                <button
+                                                    className="text-red-500"
+                                                    onClick={() => showDeleteConfirm(blog.id)}
+                                                >
+                                                    <FaTrash />
+                                                </button>
+                                            </td>
+
+
+
+                                        </tr>
+                                    ))
+                                ) : (
+                                    <tr>
+                                        <td colSpan={5} className="p-4 text-center text-gray-500">No Contact available.</td>
+                                    </tr>
+                                )}
+                            </tbody>
+                        </table>
+                    </div>
                 )}
             </div>
+
+
+
+
             {/* Confirmation Modal */}
             {showConfirm && (
                 <div className="fixed inset-0 bg-gray-600 bg-opacity-50 flex justify-center items-center z-50">
                     <div className="bg-white p-6 rounded-lg w-1/3">
-                        <h2 className="text-xl font-semibold text-center mb-4">Are you sure you want to delete this team?</h2>
+                        <h2 className="text-xl font-semibold text-center mb-4 text-black">Are you sure you want to delete this team?</h2>
                         <div className="flex justify-center gap-4">
                             <button
                                 onClick={() => handleDelete(deleteId as number)}
-                                className="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-700">
+                                className="px-4  py-2 bg-red-500 text-white rounded-lg hover:bg-red-700">
                                 Yes
                             </button>
                             <button
@@ -239,7 +227,7 @@ const BlogTable = () => {
                 </div>
             )}
 
-           
+
         </div>
     );
 };

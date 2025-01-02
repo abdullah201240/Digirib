@@ -11,7 +11,7 @@ interface Client {
 
 const ClientTable = () => {
     const router = useRouter();
-    const [services, setServices] = useState<Client[]>([]);
+    const [client, setClient] = useState<Client[]>([]);
     const [loading, setLoading] = useState<boolean>(true); // Start with loading as true
     const [showConfirm, setShowConfirm] = useState<boolean>(false); // State for showing confirmation modal
     const [deleteId, setDeleteId] = useState<number | null>(null); // State to track the team to delete
@@ -57,7 +57,7 @@ const ClientTable = () => {
                     const data = await teamResponse.json(); // Parse response data
                     // Ensure that the data is an array before setting it
                     if (Array.isArray(data.data)) {
-                        setServices(data.data); // Update state with the fetched team
+                        setClient(data.data); // Update state with the fetched team
                     } else {
                         console.error('Fetched data is not an array:', data);
                     }
@@ -95,7 +95,7 @@ const ClientTable = () => {
             );
 
             if (response.ok) {
-                setServices(services.filter((services) => services.id !== id)); // Remove the deleted team from the state
+                setClient(client.filter((client) => client.id !== id)); // Remove the deleted team from the state
                 setShowConfirm(false); // Close the confirmation modal
             } else {
                 console.error('Failed to delete team');
@@ -128,7 +128,7 @@ const ClientTable = () => {
             </h4>
 
             <div className="flex flex-col text-white">
-                <div className="grid grid-cols-5 rounded-sm bg-gray-2 dark:bg-meta-4 sm:grid-cols-3">
+                <div className="grid grid-cols-3 rounded-sm bg-gray-2 dark:bg-meta-4 sm:grid-cols-3">
                     <div className="p-2.5 xl:p-5">
                         <h5 className="text-sm font-medium uppercase xsm:text-base text-white">
                             ID
@@ -149,28 +149,28 @@ const ClientTable = () => {
                     </div>
                 </div>
 
-                {services.length > 0 ? (
-                    services.map((service) => (
+                {client.length > 0 ? (
+                    client.map((clients) => (
                         <div
-                            className={`grid grid-cols-3 sm:grid-cols-3 ${services.indexOf(service) === services.length - 1
+                            className={`grid grid-cols-3 sm:grid-cols-3 ${client.indexOf(clients) === client.length - 1
                                     ? ''
                                     : 'border-b border-stroke dark:border-strokedark'
                                 }`}
-                            key={service.id}
+                            key={clients.id}
                         >
                             <div className="flex items-center gap-3 p-2.5 xl:p-5">
-                                <p className="text-black">{service.id}</p>
+                                <p className="text-black">{clients.id}</p>
                             </div>
                             
                          
 
                             <div className="flex items-center justify-center gap-2 p-2.5 xl:p-5">
                             <div className="w-20 h-20 rounded-lg overflow-hidden">
-                                        {service.image ? (
+                                        {clients.image ? (
                                             <Image
                                                 className="w-full h-full object-cover"
-                                                src={`${process.env.NEXT_PUBLIC_API_URL_IMAGE}${service.image}`}
-                                                alt="service-image"
+                                                src={`${process.env.NEXT_PUBLIC_API_URL_IMAGE}${clients.image}`}
+                                                alt="clients-image"
                                                 width={50}
                                                 height={50}
                                             />
@@ -185,7 +185,7 @@ const ClientTable = () => {
                                 
                                 <button
                                     className="text-red-500"
-                                    onClick={() => showDeleteConfirm(service.id)}
+                                    onClick={() => showDeleteConfirm(clients.id)}
                                 >
                                     <FaTrash />
                                 </button>

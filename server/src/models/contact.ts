@@ -6,9 +6,8 @@ export interface ContactAttributes {
   id: number;
   name: string;
   email: string;
-  subject: string;
   phone: string;
-  description: string;
+  topic: string;
 }
 
 // Specify which attributes are optional for model creation
@@ -20,13 +19,11 @@ class Contacts extends Model<ContactAttributes, ContactCreationAttributes> imple
   public name!: string;
   public email!: string;
   public phone!: string;
-  public subject!: string;
-  public description!: string;
+  public topic!: string;
 
 }
 
 // Initialize the Services model
-const ContactsModel = (sequelizeInstance: Sequelize): typeof Contacts => {
     Contacts.init(
     {
       id: {
@@ -47,11 +44,7 @@ const ContactsModel = (sequelizeInstance: Sequelize): typeof Contacts => {
         type: DataTypes.STRING, // Matches the logo field in the interface
         allowNull: false,
       },
-      subject: {
-        type: DataTypes.STRING, // Matches the image field in the interface
-        allowNull: false,
-      },
-      description: {
+      topic: {
         type: DataTypes.TEXT, // Matches the description field in the interface
         allowNull: false,
       },
@@ -64,7 +57,6 @@ const ContactsModel = (sequelizeInstance: Sequelize): typeof Contacts => {
     }
   );
 
-  return Contacts;
-};
+  
 
-export default ContactsModel;
+export default Contacts;

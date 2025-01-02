@@ -1,7 +1,66 @@
-import React from 'react';
+"use client";
+
+import React, { useState } from "react";
 import { FaEnvelope, FaPhoneAlt, FaMapMarkerAlt } from 'react-icons/fa';
+import { toast } from "react-hot-toast";
+
 
 export default function ContactInfo() {
+    const [formData, setFormData] = useState({
+        name: "",
+        email: "",
+        phone: "",
+        topic: "",
+    });
+    type FormDataKeys = keyof typeof formData;
+
+    const handleChange = (
+        e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    ) => {
+        const { name, value } = e.target;
+
+        if (name in formData) {
+            setFormData((prevFormData) => ({
+                ...prevFormData,
+                [name as FormDataKeys]: value,
+            }));
+        }
+    };
+
+
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+
+        try {
+            const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}user/contacts`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(formData),
+            });
+
+            if (response.ok) {
+                toast.success("Message sent successfully!");
+                setFormData({
+                    name: "",
+                    email: "",
+                    phone: "",
+                    topic: "",
+                });
+            } else {
+                const errorData = await response.json();
+                toast.error(`Error: ${errorData.message || "Something went wrong!"}`);
+            }
+        } catch (error) {
+            if (error instanceof Error) {
+                toast.error(`Error: ${error.message}`);
+            } else {
+                toast.error("An unknown error occurred!");
+            }
+        }
+    };
+
     return (
         <div className="bg-white">
             <section className="bg-transparent">
@@ -57,50 +116,31 @@ export default function ContactInfo() {
                                     <p className="mt-4 text-white text-sm">Fill out the form below, and we’ll get back to you shortly to discuss your needs and how we can work together to achieve your goals.</p>
                                 </div>
 
-                                <form className="py-4 px-6 space-y-6" action="" method="POST">
-                                    {/* Name Input */}
-                                    <div className="mb-4">
-                                        <label className="block text-white font-semibold mb-2" htmlFor="name">Name</label>
-                                        <input
-                                            className="w-full p-3 text-black bg-white rounded-md border border-bg-white focus:outline-none focus:ring-2 focus:ring-bg-white"
-                                            id="name"
-                                            type="text"
-                                            placeholder="Enter your name"
-                                        />
-                                    </div>
+                                <form className="py-4 px-6 space-y-6" onSubmit={handleSubmit}>
+                                    {['name', 'email', 'phone', 'topic'].map((field) => (
+                                        <div className="mb-4" key={field}>
+                                            <label className="block text-white font-semibold mb-2" htmlFor={field}>
+                                                {field.charAt(0).toUpperCase() + field.slice(1)}
+                                            </label>
+                                            <input
+                                                className="w-full p-3 text-black bg-white rounded-md border border-bg-white focus:outline-none focus:ring-2 focus:ring-bg-white"
+                                                id={field}
+                                                type={field === 'email' ? 'email' : 'text'}
+                                                name={field}
+                                                value={formData[field as keyof typeof formData]}
+                                                onChange={handleChange}
+                                                placeholder={`Enter your ${field}`}
+                                            />
+                                        </div>
+                                    ))}
 
-                                    {/* Email Input */}
-                                    <div className="mb-4">
-                                        <label className="block text-white font-semibold mb-2" htmlFor="email">Email</label>
-                                        <input
-                                            className="w-full p-3 text-black bg-white rounded-md border border-bg-white focus:outline-none focus:ring-2 focus:ring-bg-white"
-                                            id="email"
-                                            type="email"
-                                            placeholder="Enter your email"
-                                        />
-                                    </div>
 
-                                    {/* Phone Input */}
-                                    <div className="mb-4">
-                                        <label className="block text-white font-semibold mb-2" htmlFor="phone">Phone</label>
-                                        <input
-                                            className="w-full p-3 text-black bg-white rounded-md border border-bg-white focus:outline-none focus:ring-2 focus:ring-bg-white"
-                                            id="phone"
-                                            type="tel"
-                                            placeholder="Enter your phone number"
-                                        />
-                                    </div>
 
-                                    {/* Topic Input */}
-                                    <div className="mb-4">
-                                        <label className="block text-white font-semibold mb-2" htmlFor="topic">Topic</label>
-                                        <input
-                                            className="w-full p-3 text-black bg-white rounded-md border border-bg-white focus:outline-none focus:ring-2 focus:ring-bg-white"
-                                            id="topic"
-                                            type="text"
-                                            placeholder="Enter the topic"
-                                        />
-                                    </div>
+
+
+
+
+
 
                                     {/* Submit Button */}
                                     <div className="mb-4 py-8">

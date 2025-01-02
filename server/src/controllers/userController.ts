@@ -7,7 +7,6 @@ import TeamModel from '../models/team';
 import ServicesModel from '../models/services';
 import { contactsSchema } from '../schema/admin';
 import { UnprocessableEntity } from '../exceptions/validation';
-import ContactsModel from '../models/contact';
 import ProjectImage from '../models/projectImage';
 import WeAchieved from '../models/weAchieved';
 import Client from '../models/client';
@@ -27,6 +26,7 @@ import MainServicesSubCategory from '../models/mainServicesSubCategory';
 import '../models/associations';
 import Experiance from '../models/experiance';
 import WhyDigirib from '../models/whyDigirib';
+import Contacts from '../models/contact';
 
 // View by ID API (Fetch a specific About record by ID)
 export const viewAboutById = async (req: Request, res: Response, next: NextFunction): Promise<any> => {
@@ -169,14 +169,13 @@ export const contacts
     }
 
     // Destructure the data from the validated body
-    const { name, email, phone, subject, description } = req.body;
+    const { name, email, phone, topic } = req.body;
 
-    const newContacts = await ContactsModel(req.app.get('sequelize')).create({
+    const newContacts = await Contacts.create({
       name,
       email,
       phone,
-      subject,
-      description,
+      topic,
     });
 
     return res.status(201).json({ message: 'Contacts created successfully', user: newContacts });

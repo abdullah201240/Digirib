@@ -10,7 +10,6 @@ import AboutModel from '../models/about';
 import TestimonialModel from '../models/testimonial';
 import TeamModel from '../models/team';
 import ServicesModel from '../models/services';
-import ContactsModel from '../models/contact';
 import ProjectCategoryModel from '../models/projectCategory';
 import Projects from '../models/project';
 import ProjectImage from '../models/projectImage';
@@ -33,6 +32,7 @@ import MainServices from '../models/mainServices';
 import '../models/associations';
 import Experiance from '../models/experiance';
 import WhyDigirib from '../models/whyDigirib';
+import Contacts from '../models/contact';
 
 const JWT_SECRET = process.env.JWT_SECRET_KEY || "12sawegg23grr434"; // Fallback to a hardcoded secret if not in env
 
@@ -876,7 +876,7 @@ export const viewServicesById = async (req: Request, res: Response, next: NextFu
 
 // View API (Fetch all contacts records)
 export const viewContacts = async (req: Request, res: Response, next: NextFunction): Promise<any> => {
-  const contactsRecords = await ContactsModel(req.app.get('sequelize')).findAll();
+  const contactsRecords = await Contacts.findAll();
 
   if (!contactsRecords || contactsRecords.length === 0) {
     return next(new BadRequestException('Contacts record not found', ErrorCode.CONTACTS_RECORD_NOT_FOUND));
