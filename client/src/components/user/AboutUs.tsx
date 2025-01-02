@@ -1,11 +1,53 @@
-import React from 'react';
+"use client";
+import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
-import AboutImg from '@/app/assets/img/Ab.webp';
 import Link from 'next/link';
-interface AboutUsProps {
-    className?: string;
-  }
-const AboutUs: React.FC<AboutUsProps> = () => {
+
+interface AboutInfo {
+
+    homeDescription: string;
+    homeImage: string;
+
+}
+
+export default function AboutUs() {
+    const [aboutInfo, setAboutInfo] = useState<AboutInfo | null>(null);  // Use the interface here
+    const [loading, setLoading] = useState(true);      // State to handle loading state
+    const [error, setError] = useState<string | null>(null); // State to handle any errors
+    useEffect(() => {
+
+        const fetchAboutInfo = async () => {
+            try {
+                const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}user/about/1`);
+                if (!response.ok) {
+                    throw new Error('Failed to fetch data');
+                }
+                const data = await response.json();
+                console.log(data)
+                setAboutInfo(data);  // Set the fetched data
+            } catch (err) {
+                console.error(err);  // Log the error for debugging
+                const errorMessage = (err as Error).message;
+
+                setError(errorMessage);
+
+
+
+            } finally {
+                setLoading(false);  // Set loading to false when fetching is complete
+            }
+        };
+
+        fetchAboutInfo(); // Call the fetch function when component mounts
+    }, []);  // Empty dependency array to run only once when the component mounts
+
+    if (loading) {
+        return <div>Loading...</div>; // Show a loading message while fetching data
+    }
+
+    if (error) {
+        return <div>Error: {error}</div>; // Show an error message if there's an issue with the fetch
+    }
     return (
         <div
             className={`relative w-full h-auto py-4 bg-cover bg-center}`}
@@ -26,13 +68,8 @@ const AboutUs: React.FC<AboutUsProps> = () => {
                                 <span className="text-[#F05924]">Digirib</span>
                             </h2>
                             <p className="mt-4 text-gray-600 text-lg">
-                                &quot;At Digirib, our mission is to drive digital transformation by delivering
-                                innovative and customized software solutions that empower businesses to thrive in a
-                                fast-paced, technology-driven world.
-                                <br />
-                                <br />
-                                We believe in creating software that not only solves problems but also creates new
-                                opportunities for growth and efficiency.&quot;
+                            {aboutInfo?.homeDescription || "Loading description..."}
+
                             </p>
                             <div className="flex gap-4 mt-10">
 
@@ -41,23 +78,26 @@ const AboutUs: React.FC<AboutUsProps> = () => {
                                     More About Us
                                 </Link>
 
-                               
+
 
                             </div>
                         </div>
                         <div className="mt-12 md:mt-0">
-                            <Image
-                                src={AboutImg}
-                                alt="About Us Image"
-                                className="object-cover rounded-lg "
-                                width={800}
-                                height={800}
-                            />
+                            {aboutInfo?.homeImage && (
+                                <Image
+                                    src={`${process.env.NEXT_PUBLIC_API_URL_IMAGE}${aboutInfo.homeImage}`}
+                                    alt="About Us Image"
+                                    className="object-cover rounded-lg "
+                                    width={800}
+                                    height={800}
+                                />
+                            )}
                         </div>
                     </div>
                 </div>
             </section>
         </div>
-    );
+    )
 }
-export default AboutUs;
+
+

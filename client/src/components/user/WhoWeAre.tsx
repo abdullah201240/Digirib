@@ -1,10 +1,55 @@
 "use client";
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
 import { motion } from 'framer-motion'; // Import motion from framer-motion
-import AboutImg from '@/app/assets/img/WhoWe.webp';
+interface WhoWeAreInfo {
+
+  whoWeAreText: string;
+  whoWeAreImage: string;
+
+}
+
 
 export default function WhoWeAre() {
+  const [whoWeAreInfo, setWhoWeAreInfo] = useState<WhoWeAreInfo | null>(null);  // Use the interface here
+  const [loading, setLoading] = useState(true);      // State to handle loading state
+  const [error, setError] = useState<string | null>(null); // State to handle any errors
+
+  useEffect(() => {
+
+    const fetchAboutInfo = async () => {
+      try {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}user/about/1`);
+        if (!response.ok) {
+          throw new Error('Failed to fetch data');
+        }
+        const data = await response.json();
+        console.log(data)
+        setWhoWeAreInfo(data);  // Set the fetched data
+      } catch (err) {
+        console.error(err);  // Log the error for debugging
+        const errorMessage = (err as Error).message;
+
+        setError(errorMessage);
+
+
+
+      } finally {
+        setLoading(false);  // Set loading to false when fetching is complete
+      }
+    };
+
+    fetchAboutInfo(); // Call the fetch function when component mounts
+  }, []);  // Empty dependency array to run only once when the component mounts
+
+  if (loading) {
+    return <div className='bg-[#F4EBFF] py-16 pb-32'>Loading...</div>; // Show a loading message while fetching data
+  }
+
+  if (error) {
+    return <div className='bg-[#F4EBFF] py-16 pb-32'>Error: {error}</div>; // Show an error message if there's an issue with the fetch
+  }
+
   return (
     <div className="bg-white py-16">
       <section className="bg-transparent">
@@ -21,9 +66,8 @@ export default function WhoWeAre() {
                 <span className="text-[#F05924]">We Are</span>
               </h2>
               <p className="mt-4 text-gray-600 text-lg">
-                Founded on the belief that technology can solve real business challenges, Digirib is a team of experienced professionals passionate about helping businesses succeed. Our team consists of highly skilled developers, designers, project managers, and digital strategists, all working collaboratively to bring your vision to life.
+              {whoWeAreInfo?.whoWeAreText || "Loading whoWeAreText..."}
 
-                With years of experience across various industries, from startups to large enterprises, we are committed to delivering solutions that not only meet but exceed expectations. Every project we undertake is approached with creativity, dedication, and a deep understanding of the client’s objectives.
               </p>
             </motion.div>
             <motion.div
@@ -38,13 +82,15 @@ export default function WhoWeAre() {
                 whileHover={{ scale: 1.1 }}
                 transition={{ type: 'spring', stiffness: 300 }}
               >
+                {whoWeAreInfo?.whoWeAreImage && (
                 <Image
-                  src={AboutImg}
-                  alt="About Us Image"
+                src={`${process.env.NEXT_PUBLIC_API_URL_IMAGE}${whoWeAreInfo.whoWeAreImage}`}
+                alt="whoWeAreInfo"
                   className="object-cover rounded-lg"
                   width={800}
                   height={800}
                 />
+              )}
               </motion.div>
             </motion.div>
           </div>

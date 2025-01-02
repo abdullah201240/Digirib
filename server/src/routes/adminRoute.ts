@@ -9,7 +9,7 @@ import { uploadPdf } from '../middleware/uploadPdf';
 const router = express.Router();
 
 router.post('/about', 
-   
+  authMiddleware,
   uploadSeo.fields([  
     { name: 'homeImage', maxCount: 1 },
     { name: 'whoWeAreImage', maxCount: 1 }
