@@ -1,5 +1,5 @@
 import express from 'express';
-import { aboutUs, category, createBestProject, createBlog, createClientHandler, createJob, createMainServices, createMainServicesCategory, createMainServicesSubCategory, createProject, createStory, deleteAbout, deleteBestProject, deleteBlog, deleteCategory, deleteClient, deleteJob, deleteMainServices, deleteMainServicesCategory, deleteMainServicesSubCategory, deleteProject, deleteServices, deleteStory, deleteTeam, deleteTestimonial, deleteWeAchieved, experiance, FinalizedEmail, getAllMainServicesCategories, getMainServices, getMainServicesCategoryById, getMainServicesSubCategory, getMainServicesSubCategoryById, jobApplyById, RejectedEmail, services, Shortlistedemail, team, testimonial, updateAbout, updateApplicantStatus, updateExperiance, updateJob, updateServices, updateTeam, updateTestimonial, updateWeAchieved, updateWhyDigirib, viewAbout, viewAboutById, viewBestProject, viewBlog, viewCategory, viewCategoryById, viewClient, viewContacts, viewExperianceById, viewJob, viewProjects, viewServices, viewServicesById, viewStory, viewTeam, viewTeamById, viewTestimonial, viewTestimonialById, viewWeAchieved, viewWeAchievedById, viewWhyDigiribById, weAchieved, whyDigirib } from '../controllers/adminController'; // Adjust the import path as needed
+import { aboutUs, createBlog, createClientHandler, createJob, createMainServices, createMainServicesCategory, createMainServicesSubCategory, createProject, createStory, deleteAbout, deleteBlog, deleteClient, deleteJob, deleteMainServices, deleteMainServicesCategory, deleteMainServicesSubCategory, deleteProject, deleteServices, deleteStory, deleteTeam, deleteTestimonial, deleteWeAchieved, experiance, FinalizedEmail, getAllMainServicesCategories, getMainServices, getMainServicesCategoryById, getMainServicesSubCategory, getMainServicesSubCategoryById, jobApplyById, RejectedEmail, services, Shortlistedemail, team, testimonial, updateAbout, updateApplicantStatus, updateExperiance, updateJob, updateServices, updateTeam, updateTestimonial, updateWeAchieved, updateWhyDigirib, viewAbout, viewAboutById, viewBlog, viewClient, viewContacts, viewExperianceById, viewJob, viewProjects, viewServices, viewServicesById, viewStory, viewTeam, viewTeamById, viewTestimonial, viewTestimonialById, viewWeAchieved, viewWeAchievedById, viewWhyDigiribById, weAchieved, whyDigirib } from '../controllers/adminController'; // Adjust the import path as needed
 import { errorHandler } from '../error-handler';
 import authMiddleware from '../middleware/auth';
 import { compressImageMiddlewareSeo, uploadSeo } from '../middleware/uploadSeo';
@@ -163,17 +163,14 @@ router.get('/services/:id', authMiddleware, errorHandler(viewServicesById));
 
 router.get('/contacts', authMiddleware, errorHandler(viewContacts));
 
-router.post('/category',
-  authMiddleware,
-  errorHandler(category)
-);
-router.delete('/category/:id', authMiddleware, errorHandler(deleteCategory));
-
-router.get('/category', authMiddleware, errorHandler(viewCategory));
-router.get('/category/:id', authMiddleware, errorHandler(viewCategoryById));
 
 
-router.post('/createProject', uploadMul, convertToWebP, createProject);
+
+
+router.post('/createProject', uploadSeo.fields([
+  { name: 'image', maxCount: 1 }
+]),createProject);
+
 router.get('/projects', errorHandler(viewProjects));
 router.delete('/projects/:id', deleteProject);
 
@@ -213,20 +210,6 @@ router.get('/viewClient', authMiddleware, errorHandler(viewClient));
 
 router.delete('/deleteClient/:id', authMiddleware, errorHandler(deleteClient));
 
-
-router.post('/createBestProject',
-  authMiddleware,
-  uploadSeo.fields([
-    { name: 'image', maxCount: 1 }
-  ]),
-  errorHandler(createBestProject)
-);
-
-
-router.get('/viewBestProject', authMiddleware, errorHandler(viewBestProject));
-
-
-router.delete('/deleteBestProject/:id', authMiddleware, errorHandler(deleteBestProject));
 
 router.post('/createStory',
   authMiddleware,

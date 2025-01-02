@@ -7,10 +7,8 @@ import TeamModel from '../models/team';
 import ServicesModel from '../models/services';
 import { contactsSchema } from '../schema/admin';
 import { UnprocessableEntity } from '../exceptions/validation';
-import ProjectImage from '../models/projectImage';
 import WeAchieved from '../models/weAchieved';
 import Client from '../models/client';
-import BestProject from '../models/bestProject';
 import Story from '../models/story';
 import Blog from '../models/blog';
 import Job from '../models/job';
@@ -18,7 +16,6 @@ import { applySchema } from '../schema/user';
 import ApplyList from '../models/applyList';
 import { Op } from 'sequelize';
 import cache from './cache';
-import ProjectCategory from '../models/projectCategory';
 import Projects from '../models/project';
 import MainServices from '../models/mainServices';
 import MainServicesCategory from '../models/mainServicesCategory';
@@ -206,13 +203,7 @@ export const viewClient = async (req: Request, res: Response, next: NextFunction
   return res.status(200).json({ message: 'Fetched  Client records successfully', data: viewClientRecords });
 };
 
-export const viewBestProject = async (req: Request, res: Response, next: NextFunction): Promise<any> => {
-  const viewClientRecords = await BestProject.findAll({
 
-    attributes: ['id', 'image']
-  });
-  return res.status(200).json({ message: 'Fetched  Best Project records successfully', data: viewClientRecords });
-};
 
 
 export const viewStory = async (req: Request, res: Response, next: NextFunction): Promise<any> => {
@@ -307,31 +298,13 @@ export const applyJob = async (req: Request, res: Response, next: NextFunction):
 
 };
 
-export const viewProjectCategory = async (req: Request, res: Response, next: NextFunction): Promise<any> => {
-  const viewProjectCategoryRecords = await ProjectCategory.findAll();
-  return res.status(200).json({ message: 'Fetched  Project Category records successfully', data: viewProjectCategoryRecords });
-};
+
 
 
 
 
 export const viewProject = async (req: Request, res: Response, next: NextFunction): Promise<any> => {
-  const { category } = req.query;
-  let viewProjectRecords;
-  const categoryId = category ? Number(category) : null; // Convert the category to a number, if possible
-
-  // If the category is '0', fetch all projects (no filtering by category)
-  if (category === '0' || categoryId === null || isNaN(categoryId)) {
-    viewProjectRecords = await Projects.findAll();
-  } else {
-    // Fetch projects where categoryId matches the provided category
-    viewProjectRecords = await Projects.findAll({
-      where: {
-        categoryId: categoryId, // Ensure categoryId is a number
-      },});
-
-  }
-
+  const viewProjectRecords = await Projects.findAll();
   return res.status(200).json({
     message: 'Fetched project records successfully',
     data: viewProjectRecords,
@@ -339,133 +312,21 @@ export const viewProject = async (req: Request, res: Response, next: NextFunctio
 
 };
 
-export const viewAllProjectImage = async (req: Request, res: Response, next: NextFunction): Promise<any> => {
-  try {
-    const page = parseInt(req.query.page as string) || 1;
-    const limit = parseInt(req.query.limit as string) || 18;
 
-    const offset = (page - 1) * limit;
-
-    const cacheKey = `projectImages_page_${page}_limit_${limit}`;
-    
-    // Check if data is already cached
-    const cachedData = cache.get(cacheKey);
-    if (cachedData) {
-      return res.status(200).json(cachedData); // Return cached response
-    }
-
-    const { rows: projectImages, count: total } = await ProjectImage.findAndCountAll({
-      attributes: ["id", "imageName"],
-      limit,
-      offset,
-      order: [["id", "DESC"]],
-    });
-
-    const totalPages = Math.ceil(total / limit);
-
-    const responseData = {
-      message: "Project Images fetched successfully",
-      data: projectImages,
-      currentPage: page,
-      totalPages,
-      totalRecords: total,
-    };
-
-    // Store the response data in cache
-    cache.set(cacheKey, responseData);
-
-    return res.status(200).json(responseData);
-  } catch (error) {
-    next(error);
-  }
-};
-
-
-
-interface ProjectCache {
-  id: number;
-  themeImage: string;
-  name: string;
-}
 
 export const viewProjectById = async (req: Request, res: Response, next: NextFunction): Promise<any> => {
-  const { id, page = 1, limit = 20 } = req.query;
+  const { id } = req.params;
+  const viewProjectRecords = await Projects.findByPk(id);
+  return res.status(200).json({
+    message: 'Fetched project records successfully',
+    data: viewProjectRecords,
+  });
 
-  const projectId = id ? Number(id) : null;
-
-  if (projectId === null || isNaN(projectId)) {
-    return res.status(400).json({
-      message: 'Invalid project ID',
-    });
-  }
-
-  const offset = (Number(page) - 1) * Number(limit);
-  const cacheKey = `project_${projectId}_page_${page}_limit_${limit}`;
-  
-  // Check if data is already cached
-  const cachedData = cache.get<ProjectCache>(cacheKey);  // Explicitly type the cache data
-  if (cachedData) {
-    return res.status(200).json(cachedData); // Return cached response
-  }
-
-  try {
-    // Cache the project details to reduce DB calls
-    const projectCacheKey = `project_${projectId}`;
-    let project = cache.get<ProjectCache>(projectCacheKey);  // Explicitly type the cache data
-
-    if (!project) {
-      // Retrieve project from database
-      const dbProject = await Projects.findOne({
-        where: { id: projectId },
-        attributes: ['id', 'themeImage', 'name'],
-      });
-
-      // If the project is not found, return 404
-      if (!dbProject) {
-        return res.status(404).json({ message: 'Project not found' });
-      }
-
-      // Map the database result to the cache structure
-      project = {
-        id: dbProject.id,
-        themeImage: dbProject.themeImage,
-        name: dbProject.name,
-      };
-
-      // Store the project data in cache (handle null correctly)
-      cache.set(projectCacheKey, project); // Cache for 1 hour
-    }
-
-    // Cache project images with pagination
-    const { rows: projectImages, count: totalImages } = await ProjectImage.findAndCountAll({
-      where: { projectId: project.id },
-      attributes: ['projectId', 'imageName'],
-      limit: Number(limit),
-      offset: offset,
-    });
-
-    const totalPages = Math.ceil(totalImages / Number(limit));
-
-    const responseData = {
-      message: 'Fetched project records successfully',
-      data: {
-        project: project,
-        images: projectImages,
-      },
-      currentPage: Number(page),
-      totalPages,
-      totalRecords: totalImages,
-    };
-
-    // Store the response data in cache
-    cache.set(cacheKey, responseData); // Cache for 1 hour
-
-    return res.status(200).json(responseData);
-
-  } catch (error) {
-    next(error);
-  }
 };
+
+
+
+
 
 export const getAllMainServicesCategories = async (req: Request, res: Response): Promise<Response> => {
   

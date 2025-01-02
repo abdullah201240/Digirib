@@ -123,8 +123,8 @@ const categorySchema = z.object({
 });
 
 const projectSchema = z.object({
-  name: z.string(), 
-  categoryId: z.string(),  
+  title: z.string(), 
+  link: z.string(),  
 });
 
 

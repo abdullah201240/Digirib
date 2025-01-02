@@ -1,14 +1,13 @@
 import { Model, DataTypes, Optional } from 'sequelize';
 import db from '../config/sequelize';  // Sequelize instance
-import ProjectCategory from './projectCategory';  // Import ProjectCategory
-import ProjectImage from './projectImage';
+
 
 // Define the attributes for the Projects model
 interface ProjectAttributes {
   id: number;
-  name: string;
-  themeImage: string;
-  categoryId: number; // Foreign key reference to ProjectCategory
+  title: string;
+  link: string;
+  image: string; // Foreign key reference to ProjectCategory
 }
 
 // Define the attributes required for creation (without the 'id' field)
@@ -16,14 +15,10 @@ interface ProjectCreationAttributes extends Optional<ProjectAttributes, 'id'> {}
 
 class Projects extends Model<ProjectAttributes, ProjectCreationAttributes> implements ProjectAttributes {
   public id!: number;
-  public name!: string;
-  public themeImage!: string;
-  public categoryId!: number;
+  public title!: string;
+  public link!: string;
+  public image!: string;
 
-  // Relationships
-  public readonly category?: ProjectCategory;
-  public readonly images?: ProjectImage[];
-  project: any;
 }
 
 Projects.init(
@@ -34,16 +29,16 @@ Projects.init(
       primaryKey: true,
       allowNull: false,
     },
-    name: {
+    title: {
       type: DataTypes.STRING,
       allowNull: false,
     },
-    themeImage: {
+    link: {
       type: DataTypes.STRING,
       allowNull: false,
     },
-    categoryId: {
-      type: DataTypes.INTEGER,
+    image: {
+      type: DataTypes.STRING,
       allowNull: false,
     },
   },

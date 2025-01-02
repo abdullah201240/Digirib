@@ -10,13 +10,9 @@ import AboutModel from '../models/about';
 import TestimonialModel from '../models/testimonial';
 import TeamModel from '../models/team';
 import ServicesModel from '../models/services';
-import ProjectCategoryModel from '../models/projectCategory';
 import Projects from '../models/project';
-import ProjectImage from '../models/projectImage';
-import ProjectCategory from '../models/projectCategory';
 import WeAchieved from '../models/weAchieved';
 import Client from '../models/client';
-import BestProject from '../models/bestProject';
 import Story from '../models/story';
 import Blog from '../models/blog';
 import Job from '../models/job';
@@ -887,82 +883,12 @@ export const viewContacts = async (req: Request, res: Response, next: NextFuncti
 
 
 
-export const category
-  = async (req: Request, res: Response, next: NextFunction): Promise<any> => {
-    const validation = categorySchema.safeParse(req.body);
-
-    // If validation fails, throw a custom error
-    if (!validation.success) {
-      return next(new UnprocessableEntity(validation.error.errors, 'Validation Error'));
-    }
-
-    // Destructure the data from the validated body
-    const { name } = req.body;
-    // Create a new "About" record in the database
-    const newCategory = await ProjectCategoryModel.create({
-      name
-    });
-    // Invalidate all categories cache
-    cache.del('categories');
-
-    return res.status(201).json({ message: 'Category created successfully', admin: newCategory });
-  };
-
-export const deleteCategory = async (req: Request, res: Response, next: NextFunction): Promise<any> => {
-  const { id } = req.params; // Get the ID of the record from the URL parameters
-
-  const deletedCount = await ProjectCategoryModel.destroy({
-    where: { id }, // Delete the record by ID
-  });
-
-  if (deletedCount === 0) {
-    return next(new BadRequestException('Category record not found', ErrorCode.CATEGORY_RECORD_NOT_FOUND));
-
-  }
-  // Invalidate cache for all categories and the specific category
-  cache.del(`category_${id}`);
-  cache.del('categories');
-
-  return res.status(200).json({ message: 'Category deleted successfully' });
-};
-
-// View API (Fetch all About records)
-export const viewCategory = async (req: Request, res: Response, next: NextFunction): Promise<any> => {
-  // Check if categories are cached
-  const cachedCategories = cache.get('categories');
-  if (cachedCategories) {
-    return res.status(200).json({ message: 'Fetched categories successfully (from cache)', data: cachedCategories });
-  }
-  const categoryRecords = await ProjectCategoryModel.findAll();
-
-  // if (!categoryRecords || categoryRecords.length === 0) {
-  //   return next(new BadRequestException('Services record not found', ErrorCode.CATEGORY_RECORD_NOT_FOUND));
-  // }
-  // Cache the fetched categories
-  cache.set('categories', categoryRecords);
-  return res.status(200).json({ message: 'Fetched category records successfully', data: categoryRecords });
-};
 
 
-// View by ID API (Fetch a specific About record by ID)
-export const viewCategoryById = async (req: Request, res: Response, next: NextFunction): Promise<any> => {
-  const { id } = req.params; // Get the ID of the record from the URL parameters
-  // Check if the specific category is cached
-  const cachedCategory = cache.get(`category_${id}`);
-  if (cachedCategory) {
-    return res.status(200).json({ message: 'Fetched category successfully (from cache)', data: cachedCategory });
-  }
-  const categoryRecords = await ProjectCategoryModel.findByPk(id); // Find the record by primary key
 
-  if (!categoryRecords) {
-    return next(new BadRequestException(`category record with ID ${id} not found`, ErrorCode.CATEGORY_RECORD_NOT_FOUND));
 
-  }
-  // Cache the fetched category
-  cache.set(`category_${id}`, categoryRecords);
 
-  return res.status(200).json({ message: 'Fetched category record successfully', data: categoryRecords });
-};
+
 
 
 
@@ -976,7 +902,7 @@ export const createProject = async (req: Request, res: Response, next: NextFunct
     return next(new Error('Validation Error: ' + JSON.stringify(validation.error.errors)));
   }
 
-  const { name, categoryId } = req.body;
+  const { title, link } = req.body;
 
   // Type assertion for req.files
   const files = req.files as {
@@ -984,70 +910,35 @@ export const createProject = async (req: Request, res: Response, next: NextFunct
   };
 
   // Extract theme image and additional images
-  let themeImage = '';
-  const additionalFiles: Express.Multer.File[] = [];
-
-  if (files['themeImage'] && files['themeImage'].length > 0) {
-    themeImage = files['themeImage'][0].path;
+  let image = '';
+ 
+ if (files['image'] && files['image'].length > 0) {
+    image = files['image'][0].path;
   }
 
-  if (files['images'] && files['images'].length > 0) {
-    additionalFiles.push(...files['images']);
-  }
 
   // Create project entry
   const project = await Projects.create({
-    name,
-    themeImage,
-    categoryId,
+    title,
+    image,
+    link,
   });
 
-  // Create project images entries if additional images exist
-  if (additionalFiles.length > 0) {
-    const imageRecords = additionalFiles.map((file) => ({
-      imageName: file.filename,
-      projectId: project.id,
-    }));
-
-    await ProjectImage.bulkCreate(imageRecords);
-  }
-
+  
   // Invalidate project cache
   cache.del('projects');
 
   // Send response
   res.status(201).json({
     message: 'Project created successfully',
-    project: {
-      ...project, // your project data
-      project: additionalFiles.map((file) => ({
-        imageName: file.filename, // Assuming these are image file names
-      })),
-    },
-    images: additionalFiles.map((file) => file.filename),
+    data:project
   });
 };
 
 
 export const viewProjects = async (req: Request, res: Response, next: NextFunction): Promise<any> => {
   // Fetch all projects with associated project images and categories
-  const projects = await Projects.findAll({
-    include: [
-      {
-        model: ProjectCategory,
-        as: 'category', // Alias for the related category
-        attributes: ['name'], // Only include the name from ProjectCategory
-      },
-      {
-        model: ProjectImage,
-        as: 'project', // Alias for the related category
-        attributes: ['imageName'], // Only include the name from ProjectCategory
-        limit: 10,
-      },
-
-
-    ],
-  });
+  const projects = await Projects.findAll();
 
   // Send the response
   res.status(200).json({
@@ -1068,13 +959,6 @@ export const deleteProject = async (req: Request, res: Response, next: NextFunct
   // Find the project with its associated images
   const data = await Projects.findOne({
     where: { id: projectId },
-    include: [
-      {
-        model: ProjectImage,
-        as: 'project', // Alias for the associated images
-        attributes: ['imageName'], // Only retrieve the image names
-      },
-    ],
   });
 
   // If project not found, return 404
@@ -1086,53 +970,13 @@ export const deleteProject = async (req: Request, res: Response, next: NextFunct
 
   console.log('Project found:', data);
 
-  // Check if project has images
-  if (!data.project || data.project.length === 0) {
-    console.log('No images associated with this project');
-  } else {
-    console.log('Images associated with this project:', data.project);
-  }
-
-  // Define the path to the image folder
-  const imageFolderPath = path.join(__dirname, '../../upload'); // Adjust folder path as needed
-  console.log('Image folder path:', imageFolderPath);
-  console.log('Full image folder path:', path.resolve(imageFolderPath));
-
-  const imageDeletePromises = data.project?.map((image: ProjectImage) => {
-    const imagePath = path.join(imageFolderPath, image.imageName);
-    console.log(`Attempting to delete image at: ${imagePath}`); // Log the full image path
-
-    return fs.promises.access(imagePath, fs.constants.F_OK)
-      .then(() => {
-        console.log(`File exists. Proceeding to delete: ${imagePath}`);
-        return fs.promises.unlink(imagePath);
-      })
-      .then(() => {
-        console.log(`Successfully deleted image: ${image.imageName}`);
-      })
-      .catch((err) => {
-        if (err.code === 'ENOENT') {
-          console.warn(`Image ${image.imageName} not found at ${imagePath}`);
-        } else {
-          console.error(`Failed to delete image ${image.imageName}:`, err);
-        }
-      });
-  });
-
-  // Wait for all image deletion promises to resolve
-  if (imageDeletePromises && imageDeletePromises.length > 0) {
-    await Promise.all(imageDeletePromises);
-  } else {
-    console.log('No images to delete');
-  }
-
   // Delete the project from the database
   await Projects.destroy({
     where: { id: projectId },
   });
 
   return res.status(200).json({
-    message: 'Project and associated images deleted successfully',
+    message: 'Project deleted successfully',
   });
 };
 
@@ -1325,56 +1169,10 @@ export const deleteClient = async (req: Request, res: Response, next: NextFuncti
 
 
 
-export const createBestProject = async (req: Request, res: Response, next: NextFunction): Promise<any> => {
-
-  const files = req.files as { [fieldname: string]: Express.Multer.File[] };
-  const image = files['image'] ? files['image'][0].path : '';
-
-  // Create a new client record in the database using the Client model
-  const newClient = await BestProject.create({
-    image,
-  });
-  // Invalidate the cache for all BestProject records
-  cache.del('bestProjects');
-  return res.status(201).json({ message: 'Client created successfully', client: newClient });
-
-};
-
-export const viewBestProject = async (req: Request, res: Response, next: NextFunction): Promise<any> => {
-  // Check if BestProject records are cached
-  const cachedBestProjects = cache.get('bestProjects');
-  if (cachedBestProjects) {
-    return res.status(200).json({
-      message: 'Best Project records retrieved successfully (from cache)',
-      data: cachedBestProjects,
-    });
-  }
-
-  const bestProjectRecords = await BestProject.findAll();
-  // Cache the fetched records
-  cache.set('bestProjects', bestProjectRecords);
-
-  return res.status(200).json({ message: 'Fetched  Client records successfully', data: bestProjectRecords });
-};
 
 
-// Delete API
-export const deleteBestProject = async (req: Request, res: Response, next: NextFunction): Promise<any> => {
-  const { id } = req.params; // Get the ID of the record from the URL parameters
 
-  const deletedCount = await BestProject.destroy({
-    where: { id }, // Delete the record by ID
-  });
 
-  if (deletedCount === 0) {
-    return next(new BadRequestException('BestProject record not found', ErrorCode.CLIENT_RECORD_NOT_FOUND));
-
-  }
-  // Invalidate the cache for all BestProject records
-  cache.del('bestProjects');
-
-  return res.status(200).json({ message: 'BestProject deleted successfully' });
-};
 
 
 
