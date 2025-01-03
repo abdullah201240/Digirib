@@ -172,6 +172,8 @@ export default function AdminTable() {
                                                 <div className="flex items-center justify-center gap-2">
                                                     
                                                     <button
+                                                    type='button'
+                                                     title="Edit Team"
                                                         className="text-red-500 hover:text-red-700"
                                                         onClick={() => showDeleteConfirm(admin.id)}>
                                                         <FaTrash size={24} />

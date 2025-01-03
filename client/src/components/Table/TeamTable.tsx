@@ -239,15 +239,22 @@ const TeamTable = () => {
                       <td className="p-4 border border-gray-200">
                         <div className="flex items-center justify-center gap-2">
                           <button
+                            type='button'
                             onClick={() => handleEdit(team)}
-                            className="text-blue-500 hover:text-blue-700">
+                            title="Edit Team"
+                            className="text-blue-500 hover:text-blue-700"
+                          >
                             <FaEdit size={24} />
                           </button>
                           <button
+                            type='button'
+                            onClick={() => showDeleteConfirm(team.id)}
+                            title="Delete Team"
                             className="text-red-500 hover:text-red-700"
-                            onClick={() => showDeleteConfirm(team.id)}>
+                          >
                             <FaTrash size={24} />
                           </button>
+
                         </div>
                       </td>
                     </tr>
@@ -312,21 +319,28 @@ const TeamTable = () => {
                 onChange={(e) => setFormValues({ ...formValues, description: e.target.value })}
                 className="w-full  text-black p-2 border border-gray-300 rounded"
               />
-              <input
-                type="file"
-                onChange={(e) => {
-                  const file = e.target.files?.[0] || null;
-                  if (file && file.type.startsWith('image/')) {
-                    setFormValues({
-                      ...formValues,
-                      image: file
-                    });
-                  } else {
-                    alert('Please select a valid image file');
-                  }
-                }}
-                className="w-full text-black p-2 border border-gray-300 rounded"
-              />
+              <div>
+                <label htmlFor="fileInput" className="block text-gray-700 font-medium mb-1">
+                  Upload an image
+                </label>
+                <input
+                  id="fileInput"
+                  type="file"
+                  onChange={(e) => {
+                    const file = e.target.files?.[0] || null;
+                    if (file && file.type.startsWith('image/')) {
+                      setFormValues({
+                        ...formValues,
+                        image: file,
+                      });
+                    } else {
+                      alert('Please select a valid image file');
+                    }
+                  }}
+                  className="w-full text-black p-2 border border-gray-300 rounded"
+                />
+              </div>
+
 
               <button
                 type="submit"

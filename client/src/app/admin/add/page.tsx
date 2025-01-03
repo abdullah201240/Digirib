@@ -30,10 +30,10 @@ export default function Home() {
   useEffect(() => {
     const checkSession = async () => {
       const storedUserInfo = localStorage.getItem('sessionToken');
-      // if (!storedUserInfo) {
-      //   router.push('/admin/login');
-      //   return;
-      // }
+      if (!storedUserInfo) {
+        router.push('/admin/login');
+        return;
+      }
 
       try {
         const response = await fetch(
@@ -47,7 +47,7 @@ export default function Home() {
         );
 
         if (!response.ok) {
-           router.push('/admin/login');
+          router.push('/admin/login');
           return;
         }
 
@@ -79,7 +79,7 @@ export default function Home() {
       digitCheck
     );
   }
-  
+
 
   // Handling form submission
   const handleSubmit = async (e: { preventDefault: () => void; }) => {
@@ -100,15 +100,15 @@ export default function Home() {
     try {
 
       // Prepare JSON data
-    const jsonData = {
-      name: formData.name,
-      email: formData.email,
-      phone: formData.phone,
-      dob: formData.dob,
-      gender: formData.gender,
-      role: formData.role,
-      password: formData.password,
-    };
+      const jsonData = {
+        name: formData.name,
+        email: formData.email,
+        phone: formData.phone,
+        dob: formData.dob,
+        gender: formData.gender,
+        role: formData.role,
+        password: formData.password,
+      };
 
       const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}admin/auth/createAdmin`, {
         method: 'POST',
@@ -244,12 +244,14 @@ export default function Home() {
                   value={formData.gender}
                   onChange={handleChange}
                   className="w-full p-4 rounded-md border border-gray-400 focus:border-[#F17B21] focus:ring-2 focus:ring-[#F17B21] focus:outline-none placeholder-gray-600 text-gray-900"
+                  aria-label="Gender"
                 >
                   <option value="" disabled>Select Gender</option>
                   <option value="male">Male</option>
                   <option value="female">Female</option>
                   <option value="other">Other</option>
                 </select>
+
               </div>
               <div className="w-1/2">
                 <label htmlFor="role" className="block text-gray-900 font-semibold mb-2">
@@ -287,8 +289,8 @@ export default function Home() {
                 onChange={handleChange}
                 placeholder="Password"
                 className={`w-full p-4 rounded-md border ${passwordValid
-                    ? 'border-green-500 focus:ring-green-500'
-                    : 'border-red-500 focus:ring-red-500'
+                  ? 'border-green-500 focus:ring-green-500'
+                  : 'border-red-500 focus:ring-red-500'
                   } focus:ring-2 focus:outline-none placeholder-gray-600 text-gray-900`}
               />
             </div>
@@ -333,7 +335,7 @@ export default function Home() {
               </li>
               <li
                 className={
-                 /[0-9]/.test(formData.password)
+                  /[0-9]/.test(formData.password)
                     ? 'text-green-600'
                     : 'text-red-600'
                 }
@@ -341,10 +343,10 @@ export default function Home() {
                 Must contain at least one digit
               </li>
 
-              
+
             </ul>
             <br />
-            
+
 
 
             <button

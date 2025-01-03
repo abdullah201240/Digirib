@@ -181,6 +181,8 @@ const BlogTable = () => {
                                             <td className="p-4 border border-gray-200">
 
                                                 <button
+                                                 type='button'
+                                                     title="Edit Team"
                                                     className="text-red-500"
                                                     onClick={() => showDeleteConfirm(blog.id)}
                                                 >

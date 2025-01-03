@@ -222,11 +222,15 @@ export default function TestimonialTable() {
                                             <td className="p-4 border border-gray-200">
                                                 <div className="flex items-center justify-center gap-2">
                                                     <button
+                                                        type='button'
+                                                        title="Edit Team"
                                                         onClick={() => handleEdit(testimonial)}
                                                         className="text-blue-500 hover:text-blue-700">
                                                         <FaEdit size={24} />
                                                     </button>
                                                     <button
+                                                        type='button'
+                                                        title="Edit Team"
                                                         className="text-red-500 hover:text-red-700"
                                                         onClick={() => showDeleteConfirm(testimonial.id)}>
                                                         <FaTrash size={24} />
@@ -293,21 +297,28 @@ export default function TestimonialTable() {
                                 onChange={(e) => setFormValues({ ...formValues, description: e.target.value })}
                                 className="w-full p-2 border border-gray-300 rounded text-black"
                             />
-                            <input
-                                type="file"
-                                onChange={(e) => {
-                                    const file = e.target.files?.[0] || null;
-                                    if (file && file.type.startsWith('image/')) {
-                                        setFormValues({
-                                            ...formValues,
-                                            image: file
-                                        });
-                                    } else {
-                                        alert('Please select a valid image file');
-                                    }
-                                }}
-                                className="w-full p-2 border border-gray-300 rounded text-black"
-                            />
+                            <div>
+                                <label htmlFor="image-upload" className="block text-gray-700">
+                                    Upload Image
+                                </label>
+                                <input
+                                    id="image-upload"
+                                    type="file"
+                                    onChange={(e) => {
+                                        const file = e.target.files?.[0] || null;
+                                        if (file && file.type.startsWith('image/')) {
+                                            setFormValues({
+                                                ...formValues,
+                                                image: file,
+                                            });
+                                        } else {
+                                            alert('Please select a valid image file');
+                                        }
+                                    }}
+                                    className="w-full p-2 border border-gray-300 rounded text-black"
+                                />
+                            </div>
+
 
                             <button
                                 type="submit"

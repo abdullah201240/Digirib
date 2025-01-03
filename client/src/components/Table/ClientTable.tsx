@@ -184,6 +184,8 @@ const ClientTable = () => {
                             <div className="flex items-center justify-center gap-2 p-2.5 xl:p-5">
                                 
                                 <button
+                                 type='button'
+                                                     title="Edit Team"
                                     className="text-red-500"
                                     onClick={() => showDeleteConfirm(clients.id)}
                                 >
