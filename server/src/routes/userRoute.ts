@@ -1,5 +1,5 @@
 import express from 'express';
-import {  viewAboutById, viewTeam, viewTestimonial,contacts, viewWeAchieved, viewClient,viewBlog, viewBlogByid, viewJob, viewJobByid, applyJob, viewProject, viewProjectById, viewExperianceById, viewWhyDigiribById, viewAllServices } from '../controllers/userController'; 
+import {  viewAboutById, viewTeam, viewTestimonial,contacts, viewWeAchieved, viewClient,viewBlog, viewBlogByid, viewJob, viewJobByid, applyJob, viewProject, viewProjectById, viewExperianceById, viewWhyDigiribById, viewAllServices, viewServiceById, viewServiceDescriptionById } from '../controllers/userController'; 
 import { errorHandler } from '../error-handler';
 import { uploadPdf } from '../middleware/uploadPdf';
 
@@ -29,6 +29,8 @@ router.post('/applyJob',uploadPdf.single('resume'), errorHandler(applyJob));
 router.get('/projectname', errorHandler(viewProject));
 router.get('/viewProjectById', errorHandler(viewProjectById));
 router.get('/services', errorHandler(viewAllServices));
+router.get('/services/:id', errorHandler(viewServiceById));
+router.get('/servicesDescription/:id', errorHandler(viewServiceDescriptionById));
 
 
 

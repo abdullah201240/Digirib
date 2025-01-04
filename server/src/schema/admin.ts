@@ -107,6 +107,10 @@ const teamSchema = z.object({
 const servicesSchema = z.object({
   name: z.string(),
 });
+const servicesDescriptionSchema = z.object({
+  title: z.string(),
+  description: z.string(),
+});
 
 const contactsSchema = z.object({
   name: z.string(),  // Ensures the title is a string
@@ -151,5 +155,5 @@ const jobSchema = z.object({
 });
 
 
-export {whyDigiribSchema,experianceSchema,jobSchema,blogSchema, weAchievedSchema,projectSchema,categorySchema, contactsSchema,signupSchema,servicesSchema,teamSchema, loginSchema,aboutSchema ,testimonialSchema};
+export {servicesDescriptionSchema,whyDigiribSchema,experianceSchema,jobSchema,blogSchema, weAchievedSchema,projectSchema,categorySchema, contactsSchema,signupSchema,servicesSchema,teamSchema, loginSchema,aboutSchema ,testimonialSchema};
 

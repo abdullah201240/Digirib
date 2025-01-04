@@ -275,12 +275,15 @@ const Navbar = () => {
             {isMobileDropdownOpen && (
               <div className="space-y-1 px-2 hover:bg-[#F05924]" >
                 {services.map((service) => (
+                  
                   <div key={service.id} className="flex items-center space-x-3">
+                     <Link href={`/services/${service.id}`}>
                     <button className="text-white text-left px-3 py-2 text-base font-medium hover:bg-[#F05924] rounded-md">
                       {service.name}
                     </button>
-                   
+                    </Link>
                   </div>
+                
                 ))}
 
               </div>

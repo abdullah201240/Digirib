@@ -3,7 +3,7 @@ import bcrypt from 'bcryptjs';
 import AdminModel from '../models/admin'; // Adjust the import path as needed
 import { BadRequestException } from '../exceptions/bad-requests';
 import { ErrorCode } from '../exceptions/root';
-import { aboutSchema, blogSchema, categorySchema, experianceSchema, jobSchema, loginSchema, projectSchema, servicesSchema, signupSchema, teamSchema, testimonialSchema, weAchievedSchema, whyDigiribSchema } from '../schema/admin';
+import { aboutSchema, blogSchema, categorySchema, experianceSchema, jobSchema, loginSchema, projectSchema, servicesDescriptionSchema, servicesSchema, signupSchema, teamSchema, testimonialSchema, weAchievedSchema, whyDigiribSchema } from '../schema/admin';
 import { UnprocessableEntity } from '../exceptions/validation';
 import jwt from 'jsonwebtoken';
 import AboutModel from '../models/about';
@@ -25,6 +25,7 @@ import Experiance from '../models/experiance';
 import WhyDigirib from '../models/whyDigirib';
 import Contacts from '../models/contact';
 import Services from '../models/services';
+import { ServicesDescription } from '../models/associations';
 
 const JWT_SECRET = process.env.JWT_SECRET_KEY || "12sawegg23grr434"; // Fallback to a hardcoded secret if not in env
 
@@ -1609,12 +1610,114 @@ export const updateService = async (req: Request, res: Response, next: NextFunct
 
 }
 
+  export const deleteService = async (req: Request, res: Response, next: NextFunction): Promise<any> => {
+    const { id } = req.params;
+    const service = await Services.findByPk(id);
+    if (!service) {
+      return res.status(404).json({ message: 'Service not found' });
+    }
+    await service.destroy();
+    return res.status(200).json({ message: 'Service deleted successfully' });
+
+  }
 
 
 
 
 
+  export const createServiceDescription = async (req: Request, res: Response, next: NextFunction): Promise<any> => {
+    const validation = servicesDescriptionSchema.safeParse(req.body);
+    if (!validation.success) {
+      return next(new UnprocessableEntity(validation.error.errors, 'Validation Error'));
+    }
+  
+  
+    const { title ,description,categoryId } = req.body;
 
+  
+    const newServicesDescription = await ServicesDescription.create({
+      title,
+      description,
+      categoryId
+    }) 
+    return res.status(201).json({ message: 'Service Description created successfully', newServicesDescription });
+  
+  }
+  
+  
+  
+  export const viewAllServicesDescription = async (req: Request, res: Response, next: NextFunction): Promise<any> => {
+  
+    const services = await ServicesDescription.findAll({
+      include: [{
+        model: Services,
+        as: 'services',
+        attributes: ['id', 'name']
+      }]
+    });
+  
+    return res.status(200).json(services);
+  
+  }
+  
+  export const viewServiceDescriptionById = async (req: Request, res: Response, next: NextFunction): Promise<any> => {
+    const { id } = req.params;
+    const service = await ServicesDescription.findAll({
+      include: [{
+        model: Services,
+        as: 'services',
+        attributes: ['id', 'name']
+      }],
+      where: {
+        categoryId: id
+      }
+    });
+    
+    if (!service) {
+      return res.status(404).json({ message: 'Service not found' });
+    }
+  
+    return res.status(200).json(service);
+  
+  
+  }
+  
+  export const updateServiceDescription = async (req: Request, res: Response, next: NextFunction): Promise<any> => {
+    const { id } = req.params;
+    const validation = servicesDescriptionSchema.safeParse(req.body);
+  
+    // If validation fails, throw a custom error
+    if (!validation.success) {
+      return next(new UnprocessableEntity(validation.error.errors, 'Validation Error'));
+    }
+    const service = await ServicesDescription.findByPk(id);
+  
+    if (!service) {
+      return next(new BadRequestException('service Record  not found', ErrorCode.SERVICES_RECORD_NOT_FOUND));
+    }
+    const { title ,description,categoryId } = req.body;
+  
+  
+    service.title = title || service.title;
+    service.description = description || service.description;
+    service.categoryId = categoryId || service.categoryId;
+  
+    const updatedService = await service.save();
+  
+    return res.status(200).json({ message: 'service Record updated successfully', admin: updatedService });
+  
+  }
+  
+    export const deleteServiceDescription = async (req: Request, res: Response, next: NextFunction): Promise<any> => {
+      const { id } = req.params;
+      const service = await ServicesDescription.findByPk(id);
+      if (!service) {
+        return res.status(404).json({ message: 'Service not found' });
+      }
+      await service.destroy();
+      return res.status(200).json({ message: 'Service deleted successfully' });
+  
+    }
 
 export const compressAllImages = async (req: Request, res: Response) => {
   const uploadDir = 'upload2/';

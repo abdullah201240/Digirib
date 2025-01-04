@@ -68,7 +68,7 @@ export default function Services() {
               {services.map((service) => (
                 <article
                   key={service.id}
-                  className="mx-auto shadow-lg bg-[#F4F4F4] h-80 relative rounded-lg overflow-hidden transform duration-700 hover:scale-105 group"
+                  className="mx-auto shadow-lg bg-[#F4F4F4] h-70 relative rounded-lg overflow-hidden transform duration-700 hover:scale-105 group"
                 >
                   <div
                     className="absolute inset-0 bg-cover bg-center transition-all duration-700 ease-out z-10 group-hover:opacity-100"
@@ -84,7 +84,7 @@ export default function Services() {
                           {service.name}
                         </h1>
                       </div>
-                      <div className="mt-6 relative w-full h-48 group-hover:hidden">
+                      <div className=" relative w-full h-52 group-hover:hidden">
                         <Image
                           src={`${process.env.NEXT_PUBLIC_API_URL_IMAGE}${service.backgroundImage}`}
                           alt={service.name}

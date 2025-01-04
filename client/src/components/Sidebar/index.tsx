@@ -19,7 +19,6 @@ import {
   FaBriefcase,
   FaPowerOff,
 } from "react-icons/fa";
-import { IoMdCreate } from "react-icons/io";
 import SidebarItem from "@/components/Sidebar/SidebarItem";
 import ClickOutside from "@/components/Admin/ClickOutside";
 import useLocalStorage from "@/hooks/useLocalStorage";
@@ -53,11 +52,7 @@ const menuGroups = [
         label: "Team",
         route: "/admin/team",
       },
-      {
-        icon: <FaConciergeBell />,
-        label: "Services",
-        route: "/admin/services",
-      },
+     
       {
         icon: <FaEnvelope />,
         label: "Contact",
@@ -83,11 +78,7 @@ const menuGroups = [
         label: "whyDigirib",
         route: "/admin/whyDigirib",
       },
-      {
-        icon: <IoMdCreate />,
-        label: "Story",
-        route: "/admin/story",
-      },
+     
       {
         icon: <FaBlog />,
         label: "Blog",
@@ -100,12 +91,12 @@ const menuGroups = [
       },
       {
         icon: <FaConciergeBell />,
-        label: "Main Services",
+        label: "Services",
         route: "#",
         children: [
-          { label: "Category", route: "/admin/mainServices/category" },
-          { label: "Subcategory", route: "/admin/mainServices/subcategory" },
-          { label: "Services", route: "/admin/mainServices/services" },
+          { label: "Service", route: "/admin/services/service" },
+          { label: "Service Description", route: "/admin/services/serviceDescription" },
+         
         ],
       },
       {

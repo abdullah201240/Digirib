@@ -1,5 +1,5 @@
 import express from 'express';
-import { aboutUs, createBlog, createClientHandler, createJob, createProject, createService, deleteAbout, deleteBlog, deleteClient, deleteJob, deleteProject, deleteTeam, deleteTestimonial, deleteWeAchieved, experiance, FinalizedEmail,  jobApplyById, RejectedEmail, Shortlistedemail, team, testimonial, updateAbout, updateApplicantStatus, updateExperiance, updateJob,  updateService,  updateTeam, updateTestimonial, updateWeAchieved, updateWhyDigirib, viewAbout, viewAboutById, viewAllServices, viewBlog, viewClient, viewContacts, viewExperianceById, viewJob, viewProjects, viewServiceById, viewTeam, viewTeamById, viewTestimonial, viewTestimonialById, viewWeAchieved, viewWeAchievedById, viewWhyDigiribById, weAchieved, whyDigirib } from '../controllers/adminController'; // Adjust the import path as needed
+import { aboutUs, createBlog, createClientHandler, createJob, createProject, createService, createServiceDescription, deleteAbout, deleteBlog, deleteClient, deleteJob, deleteProject, deleteService, deleteServiceDescription, deleteTeam, deleteTestimonial, deleteWeAchieved, experiance, FinalizedEmail,  jobApplyById, RejectedEmail, Shortlistedemail, team, testimonial, updateAbout, updateApplicantStatus, updateExperiance, updateJob,  updateService,  updateTeam, updateTestimonial, updateWeAchieved, updateWhyDigirib, viewAbout, viewAboutById, viewAllServices, viewAllServicesDescription, viewBlog, viewClient, viewContacts, viewExperianceById, viewJob, viewProjects, viewServiceById, viewServiceDescriptionById, viewTeam, viewTeamById, viewTestimonial, viewTestimonialById, viewWeAchieved, viewWeAchievedById, viewWhyDigiribById, weAchieved, whyDigirib } from '../controllers/adminController'; // Adjust the import path as needed
 import { errorHandler } from '../error-handler';
 import authMiddleware from '../middleware/auth';
 import { compressImageMiddlewareSeo, uploadSeo } from '../middleware/uploadSeo';
@@ -236,8 +236,18 @@ router.post('/services',
     errorHandler(updateService));
   router.get('/services', errorHandler(viewAllServices));
   router.get('/services/:id', errorHandler(viewServiceById));
+  router.delete('/services/:id', errorHandler(deleteService));
+
+  
 
 
+  router.post('/servicesDescription',
+    errorHandler(createServiceDescription));
+    router.put('/servicesDescription/:id',
+      errorHandler(updateService));
+    router.get('/servicesDescription', errorHandler(viewAllServicesDescription));
+    router.get('/servicesDescription/:id', errorHandler(viewServiceDescriptionById));
+    router.delete('/servicesDescription/:id', errorHandler(deleteServiceDescription));
 
 
 

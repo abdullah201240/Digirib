@@ -20,6 +20,7 @@ import Experiance from '../models/experiance';
 import WhyDigirib from '../models/whyDigirib';
 import Contacts from '../models/contact';
 import Services from '../models/services';
+import { ServicesDescription } from '../models/associations';
 
 // View by ID API (Fetch a specific About record by ID)
 export const viewAboutById = async (req: Request, res: Response, next: NextFunction): Promise<any> => {
@@ -278,5 +279,36 @@ export const viewAllServices = async (req: Request, res: Response, next: NextFun
   return res.status(200).json(services);
 
 }
+export const viewServiceById = async (req: Request, res: Response, next: NextFunction): Promise<any> => {
+  const { id } = req.params;
+  const service = await Services.findByPk(id)
+  if (!service) {
+    return res.status(404).json({ message: 'Service not found' });
+  }
+
+  return res.status(200).json(service);
 
 
+}
+
+export const viewServiceDescriptionById = async (req: Request, res: Response, next: NextFunction): Promise<any> => {
+  const { id } = req.params;
+  const service = await ServicesDescription.findAll({
+    include: [{
+      model: Services,
+      as: 'services',
+      attributes: ['id', 'name']
+    }],
+    where: {
+      categoryId: id
+    }
+  });
+  
+  if (!service) {
+    return res.status(404).json({ message: 'Service not found' });
+  }
+
+  return res.status(200).json(service);
+
+
+}
