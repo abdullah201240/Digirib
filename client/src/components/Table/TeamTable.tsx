@@ -191,7 +191,7 @@ const TeamTable = () => {
 
 
   return (
-    <div className="flex justify-center items-center bg-gray-100 px-4">
+    <div className="flex justify-center items-center bg-gray-100 px-4 text-black">
       <div className="w-full max-w-6xl bg-white shadow-lg rounded-xl p-6">
         <h1 className="text-center text-4xl text-black">All Team</h1>
         {loading ? (

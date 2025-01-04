@@ -7,6 +7,7 @@ import Image from 'next/image';
 interface Services {
   id: number;
   name: string;
+  subTitle: string;
   image: string;
   backgroundImage: string;
 }
@@ -114,19 +115,27 @@ const ServicesTable = () => {
   };
 
   const handleEdit = async () => {
-    if (selectedService && newImage && newBackgroundImage) {
+    if (selectedService) {
       const formData = new FormData();
       formData.append('name', selectedService.name);
-      formData.append('image', newImage);
-      formData.append('backgroundImage', newBackgroundImage);
-
+      formData.append('subTitle', selectedService.subTitle);
+  
+      // Only append images if they're selected
+      if (newImage) {
+        formData.append('image', newImage);
+      }
+  
+      if (newBackgroundImage) {
+        formData.append('backgroundImage', newBackgroundImage);
+      }
+  
       const storedUserInfo = localStorage.getItem('sessionToken');
       if (!storedUserInfo) {
         toast.error('Session expired. Redirecting to login...');
         router.push('/admin/login');
         return;
       }
-
+  
       try {
         const response = await fetch(
           `${process.env.NEXT_PUBLIC_API_URL}admin/services/${selectedService.id}`,
@@ -138,7 +147,7 @@ const ServicesTable = () => {
             body: formData,
           }
         );
-
+  
         if (response.ok) {
           const updatedService = await response.json();
           setMainServices((prevServices) =>
@@ -156,9 +165,10 @@ const ServicesTable = () => {
         toast.error('An error occurred while updating the Service.');
       }
     } else {
-      toast.error('Please upload new images to update.');
+      toast.error('Please provide valid service details.');
     }
   };
+  
 
   const showDeleteConfirm = (id: number) => {
     setDeleteId(id);
@@ -184,9 +194,12 @@ const ServicesTable = () => {
     <div className="rounded-sm border border-stroke bg-white px-5 pb-2.5 pt-6 shadow-default sm:px-7.5 xl:pb-1">
       <h4 className="mb-6 text-xl font-semibold text-black dark:text-black">All Services</h4>
       <div className="flex flex-col text-white">
-        <div className="grid grid-cols-4 rounded-sm bg-gray-2 dark:bg-meta-4 sm:grid-cols-4">
+        <div className="grid grid-cols-5 rounded-sm bg-gray-2 dark:bg-meta-4 sm:grid-cols-5">
           <div className="p-2.5 xl:p-5">
             <h5 className="text-sm font-medium uppercase xsm:text-base text-white">Name</h5>
+          </div>
+          <div className="p-2.5 xl:p-5">
+            <h5 className="text-sm font-medium uppercase xsm:text-base text-white">Sub Title</h5>
           </div>
           <div className="p-2.5 xl:p-5">
             <h5 className="text-sm font-medium uppercase xsm:text-base text-white">Logo</h5>
@@ -202,7 +215,7 @@ const ServicesTable = () => {
         {mainServices.length > 0 ? (
           mainServices.map((mainService) => (
             <div
-              className={`grid grid-cols-4 sm:grid-cols-4 ${mainServices.indexOf(mainService) === mainServices.length - 1
+              className={`grid grid-cols-5 sm:grid-cols-5 ${mainServices.indexOf(mainService) === mainServices.length - 1
                 ? ''
                 : 'border-b border-stroke dark:border-strokedark'
                 }`}
@@ -210,6 +223,9 @@ const ServicesTable = () => {
             >
               <div className="flex items-center gap-3 p-2.5 xl:p-5">
                 <p className="text-black">{mainService.name}</p>
+              </div>
+              <div className="flex items-center gap-3 p-2.5 xl:p-5">
+                <p className="text-black">{mainService.subTitle}</p>
               </div>
 
               <div className="flex items-center gap-3 p-2.5 xl:p-5">
@@ -288,6 +304,17 @@ const ServicesTable = () => {
                 value={selectedService.name}
                 onChange={(e) => {
                   setSelectedService({ ...selectedService, name: e.target.value });
+                }}
+              />
+            </div>
+            <div className="mb-4">
+              <label className="block text-sm font-medium text-gray-700">Sub Title</label>
+              <input
+                type="text"
+                className="w-full mt-2 p-2 border rounded"
+                value={selectedService.subTitle}
+                onChange={(e) => {
+                  setSelectedService({ ...selectedService, subTitle: e.target.value });
                 }}
               />
             </div>

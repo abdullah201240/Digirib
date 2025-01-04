@@ -13,6 +13,7 @@ export default function Home() {
     const router = useRouter();
     const [formData, setFormData] = useState({
         name: '',
+        subTitle: '',
         backgroundImage: null,
         image: null, // Added subCategoryId for subcategory dropdown
     });
@@ -108,6 +109,7 @@ export default function Home() {
                 // Reset form fields to their initial values
                 setFormData({
                     name: '',
+                    subTitle: '',
                     image: null,
                     backgroundImage: null,
                     
@@ -141,6 +143,19 @@ export default function Home() {
                                 value={formData.name}
                                 onChange={(e) => handleChange(e.target.value, 'name')}
                                 placeholder="Name"
+                                className="w-full p-4 rounded-md border border-gray-400 focus:border-[#F17B21] focus:ring-2 focus:ring-[#F17B21] focus:outline-none placeholder-gray-600 text-gray-900"
+                            />
+                            <label htmlFor="name" className="block text-gray-900 font-semibold mb-2">
+                               Sub Title
+                            </label>
+                            <input
+                                id="subTitle"
+                                type="text"
+                                name="subTitle"
+                                required
+                                value={formData.subTitle}
+                                onChange={(e) => handleChange(e.target.value, 'subTitle')}
+                                placeholder="sub Title"
                                 className="w-full p-4 rounded-md border border-gray-400 focus:border-[#F17B21] focus:ring-2 focus:ring-[#F17B21] focus:outline-none placeholder-gray-600 text-gray-900"
                             />
                             <label htmlFor="image" className="block text-gray-900 font-semibold mb-2">

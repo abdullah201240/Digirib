@@ -54,13 +54,13 @@ export default function Testimonial() {
     <div className="bg-[#FCDED3] min-h-screen flex flex-col justify-center items-center py-16">
       <section className="px-6 w-full" id="testimonial">
         <div className="w-fit sm:mb-20 mb-10 mx-auto text-center">
-          <h1 className="text-center text-4xl mb-10 tracking-tight text-black sm:text-3xl font-medium">
+          <h1 className="text-3xl font-bold text-gray-900 sm:text-4xl text-center mt-16">
             <span className="underline decoration-[#F05924]">Wh</span>at Our
             Client Say <span className="text-[#F05924]">About Us</span>
           </h1>
         </div>
 
-        <div className="grid md:grid-cols-3 grid-cols-1 gap-12 items-center mx-auto max-w-7xl pl-2">
+        <div className="grid md:grid-cols-3 grid-cols-1 gap-12 items-center mx-auto max-w-7xl pl-2 pt-16">
           {testimonials.map((testimonial, index) => (
             <div
               key={index}

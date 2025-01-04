@@ -54,11 +54,11 @@ const ClientsSection = () => {
         backgroundRepeat: 'no-repeat',
       }}
     >
-      <h2 className="text-center text-2xl font-bold mb-8 text-black">
+      <h2 className="text-3xl font-bold text-gray-900 sm:text-4xl text-center mt-16 mb-16">
         <span className="underline decoration-[#F05924]">Our</span>{' '}
         <span className="text-[#F05924]">Partners</span>
       </h2>
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-7xl mx-auto ">
+      <div className="grid grid-cols-2 md:grid-cols-3 gap-6 max-w-7xl mx-auto mb-16">
         {clients.length > 0 ? (
           clients.map((client) => (
             <div

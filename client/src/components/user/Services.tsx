@@ -1,11 +1,12 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
-
+import Link from "next/link";
 interface Service {
   id: string;
   name: string;
   image: string;
+  subTitle: string;
   backgroundImage: string;
 }
 
@@ -50,7 +51,7 @@ export default function Services() {
     <div className="bg-white">
       <section className="py-32 px-8">
         <div className="mx-auto pt-10">
-          <h1 className="text-black text-center text-3xl font-semibold">
+          <h1 className="text-3xl font-bold text-gray-900 sm:text-4xl text-center">
             <span className="underline decoration-[#F05924]">Serv</span>ices
           </h1>
         </div>
@@ -68,8 +69,12 @@ export default function Services() {
               {services.map((service) => (
                 <article
                   key={service.id}
-                  className="mx-auto shadow-lg bg-[#F4F4F4] h-70 relative rounded-lg overflow-hidden transform duration-700 hover:scale-105 group"
+                  className="mx-auto shadow-lg bg-[#F4F4F4] h-full relative rounded-lg overflow-hidden transform duration-700 hover:scale-105 group"
                 >
+                <Link href={`/services/${service.id}`
+
+                }>
+                 
                   <div
                     className="absolute inset-0 bg-cover bg-center transition-all duration-700 ease-out z-10 group-hover:opacity-100"
                     style={{
@@ -83,8 +88,12 @@ export default function Services() {
                         <h1 className="text-black text-lg font-semibold mb-2 group-hover:text-white transition-colors duration-700 ease-out">
                           {service.name}
                         </h1>
+                        <p className="text-black text-sm  mb-2 group-hover:text-white transition-colors duration-700 ease-out">
+                          {service. subTitle}
+                        </p>
+                       
                       </div>
-                      <div className=" relative w-full h-52 group-hover:hidden">
+                      <div className=" relative w-full h-48 group-hover:hidden">
                         <Image
                           src={`${process.env.NEXT_PUBLIC_API_URL_IMAGE}${service.backgroundImage}`}
                           alt={service.name}
@@ -95,6 +104,7 @@ export default function Services() {
                       </div>
                     </div>
                   </div>
+                  </Link> 
                 </article>
               ))}
             </div>

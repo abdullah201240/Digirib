@@ -1,5 +1,6 @@
 "use client";
 import React, { useEffect, useState, useCallback } from "react";
+import clsx from "clsx";
 
 interface ServiceDis {
     id: string;
@@ -55,9 +56,11 @@ const ServicesCard: React.FC<ServicesCardProps> = ({ id }) => {
                         <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
                             {services.map((service, index) => (
                                 <div key={service.id} className="relative">
-                                    <span
-                                        className={`absolute top-0 left-0 w-full h-full mt-1 ml-1 bg-${index % 2 === 0 ? "blue" : "yellow"
-                                            }-400 rounded-lg`}
+<span
+                                        className={clsx(
+                                            "absolute top-0 left-0 w-full h-full mt-1 ml-1 rounded-lg",
+                                            index % 2 === 0 ? "bg-blue-600" : "bg-yellow-300"
+                                        )}
                                     ></span>
                                     <div className="relative h-full p-5 bg-white border-2 rounded-lg">
                                         <div className="flex items-center -mt-1">
@@ -65,10 +68,10 @@ const ServicesCard: React.FC<ServicesCardProps> = ({ id }) => {
                                                 {service.title}
                                             </h3>
                                         </div>
-                                        <p className="mt-3 mb-1 text-xs font-medium text-gray-400 uppercase">
+                                        <p className="mt-3 mb-2 pl-4 text-xs font-medium text-gray-400 uppercase">
                                             ------------
                                         </p>
-                                        <p className="mb-2 text-gray-600">{service.description}</p>
+                                        <p className="mb-2 text-gray-600 pl-4">{service.description}</p>
                                     </div>
                                 </div>
                             ))}

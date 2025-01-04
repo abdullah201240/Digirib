@@ -111,7 +111,6 @@ router.post('/team',
 
     { name: 'image', maxCount: 1 }
   ]),
-  compressImageMiddlewareSeo,
   errorHandler(team)
 );
 // Route for updating an existing About record by ID
@@ -120,7 +119,6 @@ router.put('/team/:id', uploadSeo.fields([
   { name: 'image', maxCount: 1 }
 ]),
   authMiddleware,
-  compressImageMiddlewareSeo,
   errorHandler(updateTeam));
 
 // Route for deleting an About record by ID

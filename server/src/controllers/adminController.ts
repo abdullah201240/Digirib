@@ -1540,7 +1540,7 @@ export const createService = async (req: Request, res: Response, next: NextFunct
   }
 
 
-  const { name} = req.body;
+  const { name,subTitle} = req.body;
 
 
   const files = req.files as { [fieldname: string]: Express.Multer.File[] };
@@ -1551,6 +1551,7 @@ export const createService = async (req: Request, res: Response, next: NextFunct
 
   const newServices = await Services.create({
     name,
+    subTitle,
     image,
     backgroundImage,
   }) 
@@ -1593,7 +1594,7 @@ export const updateService = async (req: Request, res: Response, next: NextFunct
   if (!service) {
     return next(new BadRequestException('service Record  not found', ErrorCode.SERVICES_RECORD_NOT_FOUND));
   }
-  const {   name } = req.body;
+  const {   name,subTitle } = req.body;
   const files = req.files as { [fieldname: string]: Express.Multer.File[] };
 
   // Handle file uploads for images, using req.files (since you're uploading multiple fields)
@@ -1601,6 +1602,7 @@ export const updateService = async (req: Request, res: Response, next: NextFunct
   const backgroundImage = files['backgroundImage'] ? files['backgroundImage'][0].path : '';
 
   service.name = name || service.name;
+  service.subTitle = subTitle || service.subTitle;
   service.image = image || service.image;
   service.backgroundImage = backgroundImage || service.backgroundImage;
 

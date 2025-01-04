@@ -4,6 +4,7 @@ import db from '../config/sequelize';
 interface ServicesAttributes {
   id: number;
   name: string;
+  subTitle:string,
   image: string;
   backgroundImage: string;
 
@@ -19,6 +20,7 @@ class Services
   public id!: number;
   public name!: string;
   public image!: string;
+  public subTitle!: string;
   public backgroundImage!: string;
 
   
@@ -35,6 +37,12 @@ Services.init(
     name: {
       type: DataTypes.STRING,
       allowNull: false,
+    },
+    subTitle: {
+      type: DataTypes.TEXT,
+      allowNull: false,
+
+
     },
     image: {
       type: DataTypes.STRING,

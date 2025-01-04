@@ -60,7 +60,7 @@ export default function Team() {
                         {teamMembers.map((member, index) => (
                             <div
                                 key={index}
-                                className="max-w-sm rounded-lg overflow-hidden shadow-lg transform transition duration-300 hover:scale-105 hover:shadow-2xl"
+                                className="max-w-sm rounded-lg overflow-hidden  transform transition duration-300 hover:scale-105 hover:shadow-2xl"
                                 onClick={() => handleCardClick(member)}
                             >
                                 <Image
