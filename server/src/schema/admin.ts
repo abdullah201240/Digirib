@@ -105,10 +105,7 @@ const teamSchema = z.object({
 });
 
 const servicesSchema = z.object({
-  title: z.string(),  // Ensures the title is a string
-  subTitle: z.string(),  // Ensures the subTitle is a string
-  mainTitle: z.string(),  // Ensures the mainTitle is a string
-  description: z.string(),  // Ensures the description is a string
+  name: z.string(),
 });
 
 const contactsSchema = z.object({

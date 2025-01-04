@@ -8,7 +8,6 @@ import { contactsSchema } from '../schema/admin';
 import { UnprocessableEntity } from '../exceptions/validation';
 import WeAchieved from '../models/weAchieved';
 import Client from '../models/client';
-import Story from '../models/story';
 import Blog from '../models/blog';
 import Job from '../models/job';
 import { applySchema } from '../schema/user';
@@ -20,6 +19,7 @@ import '../models/associations';
 import Experiance from '../models/experiance';
 import WhyDigirib from '../models/whyDigirib';
 import Contacts from '../models/contact';
+import Services from '../models/services';
 
 // View by ID API (Fetch a specific About record by ID)
 export const viewAboutById = async (req: Request, res: Response, next: NextFunction): Promise<any> => {
@@ -160,15 +160,6 @@ export const viewClient = async (req: Request, res: Response, next: NextFunction
 };
 
 
-
-
-export const viewStory = async (req: Request, res: Response, next: NextFunction): Promise<any> => {
-  const viewStoryRecords = await Story.findAll({
-    attributes: ['id', 'link']
-  });
-  return res.status(200).json({ message: 'Fetched  Story records successfully', data: viewStoryRecords });
-};
-
 export const viewBlog = async (req: Request, res: Response, next: NextFunction): Promise<any> => {
   const viewBlogRecords = await Blog.findAll({
     attributes: ['id', 'title', 'description', 'image']
@@ -280,6 +271,12 @@ export const viewProjectById = async (req: Request, res: Response, next: NextFun
 
 };
 
+export const viewAllServices = async (req: Request, res: Response, next: NextFunction): Promise<any> => {
 
+  const services = await Services.findAll()
+
+  return res.status(200).json(services);
+
+}
 
 

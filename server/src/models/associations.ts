@@ -1,15 +1,15 @@
-import ServicesCategory from "./services";
-import Services from "./servicesDescription";
+import Services from "./services";
+import ServicesDescription from "./servicesDescription";
 
-ServicesCategory.hasMany(Services, {
+Services.hasMany(ServicesDescription, {
+    as: 'servicesDescription',
+    foreignKey: 'categoryId',
+  });
+
+  ServicesDescription.belongsTo(Services, {
     as: 'services',
     foreignKey: 'categoryId',
   });
 
-  Services.belongsTo(ServicesCategory, {
-    as: 'category',
-    foreignKey: 'categoryId',
-  });
-
-  export { ServicesCategory };
-export { Services };
+  export { Services };
+export { ServicesDescription };

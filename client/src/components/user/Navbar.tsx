@@ -5,20 +5,17 @@ import Link from "next/link";
 import Image from "next/image";
 import Logo from "@/app/assets/img/logo.webp";
 
-// Define TypeScript interfaces
-interface Subcategory {
-  id: number;
-  name: string;
-}
 
-interface Category {
+
+interface Service {
   id: number;
   name: string;
-  subCategories?: Subcategory[];
+  image: string;
+
 }
 
 const Navbar = () => {
-  const [categories, setCategories] = useState<Category[]>([]); // Store categories and subcategories
+  const [services, setServices] = useState<Service[]>([]); // Store categories and subcategories
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isDesktopDropdownOpen, setIsDesktopDropdownOpen] = useState(false); // Separate state for mobile dropdown
 
@@ -69,9 +66,9 @@ const Navbar = () => {
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}user/mainServicesCategory`); // Replace with your API endpoint
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}user/services`); // Replace with your API endpoint
         const data = await response.json();
-        setCategories(data.data);
+        setServices(data);
       } catch (error) {
         console.error("Failed to fetch categories:", error);
       }
@@ -200,33 +197,23 @@ const Navbar = () => {
                   <div ref={dropdownRef} className="absolute right-0 mt-2 w-56 bg-white rounded-md shadow-lg ring-1 ring-black ring-opacity-5">
                     <ul className="py-2 text-sm text-gray-700">
                       {/* Dynamically render categories and subcategories */}
-                      {categories.map((category) => (
-                        <li key={category.id} className="relative group">
-                          <p className="block px-4 py-2 hover:bg-gray-100">
-                            {category.name}
-                          </p>
-                          {category.subCategories && category.subCategories.length > 0 && (
-                            <ul className="absolute left-full top-0 mt-0 hidden group-hover:block w-48 bg-white shadow-lg rounded-md">
-                              {category.subCategories.map((subCategory) => (
-                                <li key={subCategory.id}>
-                                  <Link
-                                    href={{
-                                      pathname: `/service/${category.name}/${subCategory.name}`,
-                                      
-
-
-                                    }}
-                                    className="block px-4 py-2 hover:bg-gray-100"
-                                    scroll={false}
-                                  >
-                                    {subCategory.name}
-                                  </Link>
-                                </li>
-                              ))}
-                            </ul>
-                          )}
+                      {services.map((service) => (
+                        <li key={service.id} className="relative group">
+                          <Link href={`/services/${service.id}`}>
+                          <div className="flex items-center space-x-2 px-4 py-2 hover:bg-gray-100">
+                            <Image
+                              src={`${process.env.NEXT_PUBLIC_API_URL_IMAGE}${service.image}`}
+                              alt="Service"
+                              width={50}
+                              height={50}
+                              className="mr-2"
+                            />
+                            <p className="text-black">{service.name}</p>
+                          </div>
+                          </Link>
                         </li>
                       ))}
+
                     </ul>
                   </div>
                 )}
@@ -237,8 +224,8 @@ const Navbar = () => {
               >
                 Projects
               </Link>
-             
-             
+
+
               <Link
                 href="/career"
                 className="px-3 py-2 text-medium font-medium text-white hover:bg-[#F05924] hover:text-white rounded-md"
@@ -286,27 +273,16 @@ const Navbar = () => {
               Services
             </button>
             {isMobileDropdownOpen && (
-              <div className="space-y-1 px-2">
-                {categories.map((category) => (
-                  <div key={category.id} className="block">
-                    <button className="block w-full text-left px-3 py-2 text-base font-medium text-gray-800 hover:bg-gray-100 rounded-md">
-                      {category.name}
+              <div className="space-y-1 px-2 hover:bg-[#F05924]" >
+                {services.map((service) => (
+                  <div key={service.id} className="flex items-center space-x-3">
+                    <button className="text-white text-left px-3 py-2 text-base font-medium hover:bg-[#F05924] rounded-md">
+                      {service.name}
                     </button>
-                    {category.subCategories && category.subCategories.length > 0 && (
-                      <div className="pl-4">
-                        {category.subCategories.map((subCategory) => (
-                          <Link
-                            key={subCategory.id}
-                            href={`/services/${category.name.toLowerCase()}/${subCategory.name.toLowerCase()}`}
-                            className="block px-3 py-2 text-sm font-medium text-gray-800 hover:bg-gray-100 rounded-md"
-                          >
-                            {subCategory.name}
-                          </Link>
-                        ))}
-                      </div>
-                    )}
+                   
                   </div>
                 ))}
+
               </div>
             )}
           </div>
@@ -316,7 +292,7 @@ const Navbar = () => {
           >
             Projects
           </Link>
-         
+
           <Link
             href="/career"
             className="block px-3 py-2 text-base font-medium text-white hover:bg-[#F05924] hover:text-white rounded-md"

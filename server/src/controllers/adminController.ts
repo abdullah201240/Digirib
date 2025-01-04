@@ -12,7 +12,6 @@ import TeamModel from '../models/team';
 import Projects from '../models/project';
 import WeAchieved from '../models/weAchieved';
 import Client from '../models/client';
-import Story from '../models/story';
 import Blog from '../models/blog';
 import Job from '../models/job';
 import ApplyList from '../models/applyList';
@@ -25,6 +24,7 @@ import '../models/associations';
 import Experiance from '../models/experiance';
 import WhyDigirib from '../models/whyDigirib';
 import Contacts from '../models/contact';
+import Services from '../models/services';
 
 const JWT_SECRET = process.env.JWT_SECRET_KEY || "12sawegg23grr434"; // Fallback to a hardcoded secret if not in env
 
@@ -1036,69 +1036,6 @@ export const deleteClient = async (req: Request, res: Response, next: NextFuncti
 
 
 
-
-
-
-
-
-
-
-
-
-export const createStory = async (req: Request, res: Response, next: NextFunction): Promise<any> => {
-
-  const { link } = req.body
-
-  // Create a new client record in the database using the Client model
-  const newLink = await Story.create({
-    link,
-  });
-  // Invalidate the cache for all Story records
-  cache.del('storyRecords');
-  return res.status(201).json({ message: 'Link created successfully', client: newLink });
-
-};
-
-export const viewStory = async (req: Request, res: Response, next: NextFunction): Promise<any> => {
-  // Check if Story records are cached
-  const cachedStoryRecords = cache.get('storyRecords');
-  if (cachedStoryRecords) {
-    return res.status(200).json({
-      message: 'Story records retrieved successfully (from cache)',
-      data: cachedStoryRecords,
-    });
-  }
-
-  const storyRecords = await Story.findAll();
-  // Cache the fetched records
-  cache.set('storyRecords', storyRecords);
-
-  return res.status(200).json({ message: 'Fetched  Story records successfully', data: storyRecords });
-};
-// Delete API
-export const deleteStory = async (req: Request, res: Response, next: NextFunction): Promise<any> => {
-  const { id } = req.params; // Get the ID of the record from the URL parameters
-
-  const deletedCount = await Story.destroy({
-    where: { id }, // Delete the record by ID
-  });
-
-  if (deletedCount === 0) {
-    return next(new BadRequestException('Story record not found', ErrorCode.CLIENT_RECORD_NOT_FOUND));
-
-  }
-  // Invalidate the cache for all Story records
-  cache.del('storyRecords');
-
-  return res.status(200).json({ message: 'Story deleted successfully' });
-};
-
-
-
-
-
-
-
 export const createBlog = async (req: Request, res: Response, next: NextFunction): Promise<any> => {
   const validation = blogSchema.safeParse(req.body);
   if (!validation.success) {
@@ -1595,6 +1532,85 @@ export const FinalizedEmail = async (req: Request, res: Response): Promise<Respo
   }
 };
 
+export const createService = async (req: Request, res: Response, next: NextFunction): Promise<any> => {
+  const validation = servicesSchema.safeParse(req.body);
+  if (!validation.success) {
+    return next(new UnprocessableEntity(validation.error.errors, 'Validation Error'));
+  }
+
+
+  const { name} = req.body;
+
+
+  const files = req.files as { [fieldname: string]: Express.Multer.File[] };
+
+  // Handle file uploads for images, using req.files (since you're uploading multiple fields)
+  const image = files['image'] ? files['image'][0].path : ''; 
+  const backgroundImage = files['backgroundImage'] ? files['backgroundImage'][0].path : '';
+
+  const newServices = await Services.create({
+    name,
+    image,
+    backgroundImage,
+  }) 
+  return res.status(201).json({ message: 'Service created successfully', newServices });
+
+}
+
+
+
+export const viewAllServices = async (req: Request, res: Response, next: NextFunction): Promise<any> => {
+
+  const services = await Services.findAll()
+
+  return res.status(200).json(services);
+
+}
+
+export const viewServiceById = async (req: Request, res: Response, next: NextFunction): Promise<any> => {
+  const { id } = req.params;
+  const service = await Services.findByPk(id)
+  if (!service) {
+    return res.status(404).json({ message: 'Service not found' });
+  }
+
+  return res.status(200).json(service);
+
+
+}
+
+export const updateService = async (req: Request, res: Response, next: NextFunction): Promise<any> => {
+  const { id } = req.params;
+  const validation = servicesSchema.safeParse(req.body);
+
+  // If validation fails, throw a custom error
+  if (!validation.success) {
+    return next(new UnprocessableEntity(validation.error.errors, 'Validation Error'));
+  }
+  const service = await Services.findByPk(id);
+
+  if (!service) {
+    return next(new BadRequestException('service Record  not found', ErrorCode.SERVICES_RECORD_NOT_FOUND));
+  }
+  const {   name } = req.body;
+  const files = req.files as { [fieldname: string]: Express.Multer.File[] };
+
+  // Handle file uploads for images, using req.files (since you're uploading multiple fields)
+  const image = files['image'] ? files['image'][0].path : ''; 
+  const backgroundImage = files['backgroundImage'] ? files['backgroundImage'][0].path : '';
+
+  service.name = name || service.name;
+  service.image = image || service.image;
+  service.backgroundImage = backgroundImage || service.backgroundImage;
+
+  const updatedService = await service.save();
+
+  return res.status(200).json({ message: 'service Record updated successfully', admin: updatedService });
+
+}
+
+
+
 
 
 
@@ -1673,4 +1689,5 @@ export const compressAllImages = async (req: Request, res: Response) => {
     res.status(500).send({ error: 'Failed to compress all images' });
   }
 };
+
 
