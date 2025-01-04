@@ -34,9 +34,6 @@ module.exports = {
     dialect: 'mysql',
     dialectOptions: {
       bigNumberStrings: true,
-    //   ssl: {
-    //     ca: process.env.PROD_DB_SSL_CA ? fs.readFileSync(process.env.PROD_DB_SSL_CA) : undefined,
-    //   },
     },
   },
 };

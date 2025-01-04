@@ -4,7 +4,6 @@ import { ErrorCode } from '../exceptions/root';
 import AboutModel from '../models/about';
 import TestimonialModel from '../models/testimonial';
 import TeamModel from '../models/team';
-import ServicesModel from '../models/services';
 import { contactsSchema } from '../schema/admin';
 import { UnprocessableEntity } from '../exceptions/validation';
 import WeAchieved from '../models/weAchieved';
@@ -17,9 +16,6 @@ import ApplyList from '../models/applyList';
 import { Op } from 'sequelize';
 import cache from './cache';
 import Projects from '../models/project';
-import MainServices from '../models/mainServices';
-import MainServicesCategory from '../models/mainServicesCategory';
-import MainServicesSubCategory from '../models/mainServicesSubCategory';
 import '../models/associations';
 import Experiance from '../models/experiance';
 import WhyDigirib from '../models/whyDigirib';
@@ -114,47 +110,7 @@ export const viewTeam = async (req: Request, res: Response, next: NextFunction):
   res.json(teams);
 };
 
-export const viewServices = async (req: Request, res: Response, next: NextFunction): Promise<any> => {
-  const servicesRecords = await ServicesModel(req.app.get('sequelize')).findAll();
 
-
-  // Map through the records and extract the necessary fields (if needed)
-  const teams = servicesRecords.map((record) => ({
-    id: record.id,
-    title: record.title,
-    subTitle: record.subTitle,
-    mainTitle: record.mainTitle,
-    description: record.description,
-    image: record.image,
-    logo: record.logo,
-  }));
-
-  // Send the response with the teams
-  res.json(teams);
-};
-
-export const viewServicesByid = async (req: Request, res: Response, next: NextFunction): Promise<any> => {
-  const { id } = req.params; // Get the ID of the record from the URL parameters
-
-  const servicesRecord = await ServicesModel(req.app.get('sequelize')).findByPk(id); // Find the record by primary key
-
-  if (!servicesRecord) {
-    return next(new BadRequestException(`Services record with ID ${id} not found`, ErrorCode.SERVICES_RECORD_NOT_FOUND));
-
-  }
-
-  // Map through the records and extract the necessary fields (if needed)
-  const team = {
-    title: servicesRecord.title,
-    subTitle: servicesRecord.subTitle,
-    mainTitle: servicesRecord.mainTitle,
-    description: servicesRecord.description,
-    image: servicesRecord.image,
-    logo: servicesRecord.logo,
-  };
-  // Send the response with the teams
-  res.json(team);
-};
 
 export const contacts
   = async (req: Request, res: Response, next: NextFunction): Promise<any> => {
@@ -325,93 +281,5 @@ export const viewProjectById = async (req: Request, res: Response, next: NextFun
 };
 
 
-
-
-
-export const getAllMainServicesCategories = async (req: Request, res: Response): Promise<Response> => {
-  
-  // Fetch all main service categories with associated subcategories
-  const categories = await MainServicesCategory.findAll({
-    include: [
-      {
-        association: 'subCategories', // Ensure this matches your Sequelize association name
-        attributes: ['id', 'name'], // Fetch only relevant fields
-      },
-    ],
-  });
-
-  return res.status(200).json({
-    message: 'Categories fetched successfully.',
-    data: categories,
-  });
-};
-
-
-export const getMainServices = async (req: Request, res: Response) => {
- 
-  const mainServices = await MainServices.findAll({
-      include: [
-        {
-          model: MainServicesCategory,
-          as: 'category', // Alias must match the one in associations
-          attributes: ['id', 'name'], // Fetch only relevant fields
-          
-        },
-        {
-          model: MainServicesSubCategory,
-          as: 'subCategory', // Alias must match the one in associations
-          attributes: ['id', 'name'], // Fetch only relevant fields
-          
-        },
-      ],
-    });
-
-  return res.status(200).json({
-    message: 'Main Services fetched successfully.',
-    data: mainServices,
-  });
-
-};
-
-
-export const getMainServicesById = async (req: Request, res: Response) => {
-  const { id, name } = req.params;
-
-console.log(id)
-console.log(name)
-
-    const mainService = await MainServices.findOne({
-      include: [
-        {
-          model: MainServicesCategory,
-          as: 'category', // Alias must match the one in associations
-          attributes: ['id', 'name'],
-          where: {
-            name: id, // Match category name
-          },
-        },
-        {
-          model: MainServicesSubCategory,
-          as: 'subCategory', // Alias must match the one in associations
-          attributes: ['id', 'name'],
-          where: {
-            name: name, // Match subcategory name
-          },
-        },
-      ],
-    });
-
-    if (!mainService) {
-      return res.status(404).json({
-        message: 'No main service found for the provided category and subcategory.',
-      });
-    }
-
-    return res.status(200).json({
-      message: 'Main Service fetched successfully.',
-      data: mainService,
-    });
-  
-};
 
 

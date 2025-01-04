@@ -1,20 +1,15 @@
-import  MainServicesCategory  from './mainServicesCategory';
-import MainServicesSubCategory  from './mainServicesSubCategory';
+import ServicesCategory from "./services";
+import Services from "./servicesDescription";
 
+ServicesCategory.hasMany(Services, {
+    as: 'services',
+    foreignKey: 'categoryId',
+  });
 
+  Services.belongsTo(ServicesCategory, {
+    as: 'category',
+    foreignKey: 'categoryId',
+  });
 
-// Define associations
-MainServicesCategory.hasMany(MainServicesSubCategory, {
-  as: 'subCategories',
-  foreignKey: 'categoryId',
-});
-
-MainServicesSubCategory.belongsTo(MainServicesCategory, {
-  as: 'category',
-  foreignKey: 'categoryId',
-});
-
-
-
-export { MainServicesCategory };
-export { MainServicesSubCategory };
+  export { ServicesCategory };
+export { Services };
