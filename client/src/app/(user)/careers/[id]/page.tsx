@@ -1,10 +1,10 @@
 "use client";
-import Navbar from '@/components/Navbar';
-import Footer from "@/components/Footer";
-import Whatsapp from "@/components/Whatsapp";
+import Navbar from '@/components/user/Navbar';
+import Footer from "@/components/user/Footer";
+import Whatsapp from "@/components/user/Whatsapp";
 import { useParams } from "next/navigation";
 import React, { useState, useEffect } from "react";
-import ApplyFrom from '@/components/ApplyFrom';
+import ApplyFrom from '@/components/user/ApplyFrom';
 
 interface Job {
   id: number;

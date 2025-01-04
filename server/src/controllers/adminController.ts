@@ -1291,7 +1291,7 @@ export const Shortlistedemail = async (req: Request, res: Response): Promise<Res
     senderName,
     senderPosition,
   } = req.body;
-  const companyName = 'IQ Architects Ltd'
+  const companyName = 'Digirib'
 
   // Fetch shortlisted applicants for the given jobId
   const shortlistedApplicants = await ApplyList.findAll({
@@ -1365,7 +1365,7 @@ export const RejectedEmail = async (req: Request, res: Response): Promise<Respon
     senderName,
     senderPosition,
   } = req.body;
-  const companyName = 'IQ Architects Ltd'
+  const companyName = 'Digirib'
 
   // Fetch shortlisted applicants for the given jobId
   const shortlistedApplicants = await ApplyList.findAll({
@@ -1446,7 +1446,7 @@ export const FinalizedEmail = async (req: Request, res: Response): Promise<Respo
       jobId,
     } = req.body;
 
-    const companyName = 'IQ Architects Ltd';
+    const companyName = 'Digirib';
 
     // Validation: Ensure all required fields are provided
     if (!candidateName || !contactInfo || !senderName || !senderPosition || !email || !startDate || !offerExpirationDate || !jobId) {
