@@ -33,16 +33,16 @@ const HeroSection = React.memo(function HeroSection() {
 
                 {/* Follow Us Section on Mobile */}
                 <div className="flex flex-row justify-center gap-10 mt-16 lg:hidden">
-                    <a href="https://facebook.com" target="_blank" rel="noopener noreferrer">
+                    <a href="https://www.facebook.com/people/Digirib/100094543100873" target="_blank" rel="noopener noreferrer">
                         <FaFacebookF className="text-white w-8 h-8 cursor-pointer hover:text-[#F05924] transition-colors duration-200" />
                     </a>
                     <a href="https://instagram.com" target="_blank" rel="noopener noreferrer">
                         <FaInstagram className="text-white w-8 h-8 cursor-pointer hover:text-[#F05924] transition-colors duration-200" />
                     </a>
-                    <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer">
+                    <a href="https://www.linkedin.com/company/digirib1" target="_blank" rel="noopener noreferrer">
                         <FaLinkedinIn className="text-white w-8 h-8 cursor-pointer hover:text-[#F05924] transition-colors duration-200" />
                     </a>
-                    <a href="https://behance.net" target="_blank" rel="noopener noreferrer">
+                    <a href="https://www.behance.net/digiribteam" target="_blank" rel="noopener noreferrer">
                         <FaBehance className="text-white w-8 h-8 cursor-pointer hover:text-[#F05924] transition-colors duration-200" />
                     </a>
                     <a href="https://twitter.com" target="_blank" rel="noopener noreferrer">
@@ -53,16 +53,16 @@ const HeroSection = React.memo(function HeroSection() {
 
             {/* Follow Us Section for Larger Screens */}
             <div className="absolute top-1/2 right-8 transform -translate-y-1/2 z-30 hidden lg:flex flex-col items-center gap-8">
-                <a href="https://facebook.com" target="_blank" rel="noopener noreferrer">
+                <a href="https://www.facebook.com/people/Digirib/100094543100873" target="_blank" rel="noopener noreferrer">
                     <FaFacebookF className="text-white w-6 h-6 cursor-pointer hover:text-[#F05924] transition-colors duration-200" />
                 </a>
                 <a href="https://instagram.com" target="_blank" rel="noopener noreferrer">
                     <FaInstagram className="text-white w-6 h-6 cursor-pointer hover:text-[#F05924] transition-colors duration-200" />
                 </a>
-                <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer">
+                <a href="https://www.linkedin.com/company/digirib1" target="_blank" rel="noopener noreferrer">
                     <FaLinkedinIn className="text-white w-6 h-6 cursor-pointer hover:text-[#F05924] transition-colors duration-200" />
                 </a>
-                <a href="https://behance.net" target="_blank" rel="noopener noreferrer">
+                <a href="https://www.behance.net/digiribteam" target="_blank" rel="noopener noreferrer">
                     <FaBehance className="text-white w-6 h-6 cursor-pointer hover:text-[#F05924] transition-colors duration-200" />
                 </a>
                 <a href="https://twitter.com" target="_blank" rel="noopener noreferrer">

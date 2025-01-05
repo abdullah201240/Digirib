@@ -96,7 +96,7 @@ export default function Page() {
   };
 
   return (
-    <div className="w-screen min-h-screen flex items-center justify-center bg-white dark:bg-gray-800 px-4 sm:px-6 lg:px-8">
+    <div className="w-screen min-h-screen flex items-center justify-center bg-white dark:bg-gray-800 px-4 sm:px-6 lg:px-8 text-black">
       <div className="relative py-3 sm:max-w-xs sm:mx-auto">
         <div className="min-h-96 px-8 py-6 mt-4 text-left bg-white dark:bg-gblack rounded-xl shadow-lg">
           <div className="flex flex-col justify-center items-center h-full select-none">
@@ -119,14 +119,14 @@ export default function Page() {
             {/* Alert Display */}
             {alert && (
               <Alert variant={alert.type === 'error' ? 'destructive' : 'default'}>
-                <AlertCircle className="h-4 w-4" />
-                <AlertTitle>{alert.type === 'error' ? 'Error' : 'Success'}</AlertTitle>
-                <AlertDescription>{alert.message}</AlertDescription>
+                <AlertCircle className="h-4 w-4 text-black" />
+                <AlertTitle className='text-black' >{alert.type === 'error' ? 'Error' : 'Success'}</AlertTitle>
+                <AlertDescription className='text-black'>{alert.message}</AlertDescription>
               </Alert>
             )}
 
             {/* Form Handling with POST method */}
-            <form onSubmit={handleSubmit} className="w-full flex flex-col gap-4">
+            <form onSubmit={handleSubmit} className="w-full flex flex-col gap-4 text-black">
               <div className="w-full flex flex-col gap-2">
                 <label className="font-semibold text-xs text-black">Username</label>
                 <input
@@ -140,7 +140,7 @@ export default function Page() {
                 <input
                   type="password"
                   name="password"
-                  className="border rounded-lg px-3 py-2 mb-5 text-sm w-full outline-none dark:border-black dark:bg-gblack"
+                  className="border text-black rounded-lg px-3 py-2 mb-5 text-sm w-full outline-none dark:border-black dark:bg-gblack"
                   placeholder="••••••••"
                 />
               </div>

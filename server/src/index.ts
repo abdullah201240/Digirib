@@ -17,6 +17,7 @@ dotenv.config();
 
 const app = express();
 const port = parseInt(process.env.PORT || '8080', 10); // Ensure port is a number
+const allowedOrigins = process.env.ALLOWED_ORIGINS?.split(',') || [];
 
 // Use morgan to log HTTP requests
 app.use(morgan('combined'));
@@ -25,29 +26,22 @@ app.use(bodyParser.json());
 // Helmet for setting secure HTTP headers
 app.use(helmet());
 app.use(compression())
-app.use(cors({
-  origin: (origin, callback) => {
-    if (!origin) {
-      // Allow requests without an origin header (e.g., from Postman, curl)
-      callback(null, true);
-    } else {
-      const allowedOrigins = [
-        "http://localhost:3000", 
-        "http://192.168.68.188:3000",
-        "http://192.168.68.188:8080",
-        "http://localhost:3001"
-        
-      ];
-      if (allowedOrigins.indexOf(origin) !== -1) {
-        callback(null, true); // allow the request
+app.use(
+  cors({
+    origin: (origin, callback) => {
+      if (!origin) {
+        // Allow requests without an origin header (e.g., from Postman, curl)
+        callback(null, true);
+      } else if (allowedOrigins.includes(origin)) {
+        callback(null, true); // Allow the request
       } else {
-        callback(new Error('Not allowed by CORS'), false); // reject the request
+        callback(new Error('Not allowed by CORS'), false); // Reject the request
       }
-    }
-  },
-  methods: "GET,POST,PUT,DELETE",
-  credentials: true
-}));
+    },
+    methods: 'GET,POST,PUT,DELETE',
+    credentials: true,
+  })
+);
 
 
 
